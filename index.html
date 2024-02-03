@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #logoutButton {
+            background-color: #f44336;
+        }
+
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm" style="display: block;">
+        <h2>Login</h2>
+        <form id="loginFormInner">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="showRegisterForm()">Register</a></p>
+    </div>
+
+    <div id="registerForm" style="display: none;">
+        <h2>Register</h2>
+        <form id="registerFormInner">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+    </div>
+
+    <div id="userData" style="display: none;">
+        <h2>Welcome!</h2>
+        <p id="userEmail"></p>
+        <button id="logoutButton" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const loginForm = document.getElementById('loginFormInner');
+        const registerForm = document.getElementById('registerFormInner');
+        const userDataDiv = document.getElementById('userData');
+        const userEmailElement = document.getElementById('userEmail');
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            await login(event.target);
+        });
+
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            await register(event.target);
+        });
+
+        function showUserData(user) {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            userDataDiv.style.display = 'block';
+            userEmailElement.innerText = `Hello, ${user.email}!`;
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            userDataDiv.style.display = 'none';
+        }
+
+        function showRegisterForm() {
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+            userDataDiv.style.display = 'none';
+        }
+
+        async function login(form) {
+            const email = form.email.value;
+            const password = form.password.value;
+
+            try {
+                const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                showUserData(user);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function register(form) {
+            const name = form.name.value;
+            const email = form.email.value;
+            const password = form.password.value;
+
+            try {
+                const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                showUserData(user);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+                userDataDiv.style.display = 'none';
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>
