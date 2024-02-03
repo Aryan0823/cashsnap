@@ -100,8 +100,11 @@ button:hover {
 button#equal {
     height: 130px;
 }
-button#cash {
+button#cashin {
     width: 130px;
+}
+button#cashout{
+   width: 130px;
 }
 
 /* light theme */
@@ -117,6 +120,10 @@ button#cash {
 .calculator button#clear {
     background-color: #ffd5d8;
     color: #fc4552;
+}
+.calculator button#allclear {
+  background-color: #ffd5d8;
+  color: #fc4552;
 }
 
 .calculator button.btn-number {
@@ -152,6 +159,11 @@ button#cash {
   }
 
   .calculator.dark button#clear {
+    background-color: #2d191e;
+    color: #bd3740;
+  }
+
+  .calculator.dark button#allclear {
     background-color: #2d191e;
     color: #bd3740;
   }
