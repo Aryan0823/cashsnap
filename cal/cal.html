@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div class="calculator">
-            <!-- <div id="grandTotalDisplay">Grand Total</div> -->
+            <div id="grandTotalDisplay">Grand Total</div>
             <div class="display-screen">
                 <div id="display"></div>
             </div>
@@ -141,7 +141,7 @@
                 return;
             }
 
-            set(ref(db, "Transaction/" + formattedDate), {
+            set(ref(db, "Transaction/" + formattedDate + formattedTime), {
                 Date: formattedDate,
                 Time: formattedTime,
                 transactionType: transactionType,
