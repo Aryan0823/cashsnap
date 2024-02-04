@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Calculator</title>
+    <title>Title</title>
 </head>
 <body>
     <div class="container">
-        <div class="calculator">
-            <div id="grandTotalDisplay">Grandtotal: 0</div>
+        <div class="calculator dark">
+            <div class="theme-toggler active">
+                <i class="toggler-icon"></i>
+            </div>
             <div class="display-screen">
                 <div id="display"></div>
             </div>
             <div class="buttons">
                 <table>
-                    <tr>
-                        <td><button class="btn-operator" id="allclear">AC</button></td>
-                    </tr>
                     <tr>
                         <td><button class="btn-operator" id="clear">C</button></td>
                         <td><button class="btn-operator" id="/">&divide;</button></td>
@@ -49,17 +48,13 @@
                         <td><button class="btn-operator" id=")">)</button></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button class="cashin btn-special" id="cashin">Cash In</button></td>
-                        <td colspan="2"><button class="cashout btn-special" id="cashout">Cash Out</button></td>
+                        <td colspan="2"><button class="cashin" id="cash">CashIn</button></td>
+                        <td colspan="2"><button class="cashout" id="cash">CashOut</button></td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js"></script>
-    <script src="/Users/aryanthakore/uvpce/Cashsnap/cal/firebase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-/Users/aryanthakore/uvpce/Cashsnap/login page

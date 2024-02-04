@@ -100,10 +100,10 @@ button:hover {
 button#equal {
     height: 130px;
 }
-button#cashIn {
+button#cashin {
     width: 130px;
 }
-button#cashOut{
+button#cashout{
    width: 130px;
 }
 
@@ -140,16 +140,16 @@ button#cashOut{
     background-color: #adf9e7;
     color: #000;
   }
-  .calculator button.btn-cashin {
+  .calculator button.cashin {
     background-color: #bdf9ad;
     color: #000;
   }
-  .calculator button.btn-cashout {
+  .calculator button.cashout {
     background-color: #f9adad;
     color: #000;
   }
   /* dark theme */
-/* 
+
   .calculator.dark {
     background-color: #071115;
   }
@@ -181,5 +181,5 @@ button#cashOut{
   .calculator.dark button.btn-equal {
     background-color: #223323;
     color: #ffffff;
-  } */
+  }
   
