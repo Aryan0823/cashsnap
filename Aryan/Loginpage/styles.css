@@ -5,7 +5,7 @@ body {
 
 .container {
 	width: 300px;
-    height: 500px;
+    height: 400px;
 	background-color: #fff;
     border-radius: 10px;  
 	margin: 100px auto;
@@ -15,7 +15,8 @@ body {
     
 }
 .left{
-    height: 500px;
+    border-radius: 10px; 
+    height: 400px;
     width:auto;
     background-color: #6261e2;
     width:50%;  
@@ -49,32 +50,28 @@ h2 {
     font-weight: bold;
     color:#8092b6;
 }
-.form-check {
-    display: block;
-    min-height: 1.4rem;
-    padding-left: 1.5em;
-    margin-bottom: 0.125rem;
-  }
+
 p {
 	margin-bottom: 10px;
+}
+
+.losspw{
+    padding-left: 63.5%;
+    color: #302cd9;
 }
 
 .step2{
     color: white;
     margin-left: 30px;
     font-size: 15px;
-    padding-top: 58%;
+    padding-top: 40%;
 }
-.button {
-	display: block;
-	width: 100%;
-	background-color: 
-    #6261e2;
-	color: white;
-	padding: 10px 0px;
-	text-align: center;
-	text-decoration: none;
-	margin-bottom: 10px;
+.signup{
+    margin-left: 30px;
+    color: #8092b6;
+}
+a{
+color:#4543db;
 }
 
 input[type="email"], input[type="password"] {
@@ -87,11 +84,15 @@ input[type="email"], input[type="password"] {
 }
 
 input[type="submit"] {
-	background-color: #2f2dd8;
+	background-color: 
+    #302cd8;
 	color: white;
 	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+    font-weight: bold;
+    width: 85%;
+    margin-left: 30px;
     /* margin-left: 30px; */
 }
