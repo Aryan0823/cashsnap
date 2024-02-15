@@ -64,14 +64,18 @@ p {
     color: white;
     margin-left: 30px;
     font-size: 15px;
-    padding-top: 40%;
+
 }
 .signup{
     margin-left: 30px;
     color: #8092b6;
+    margin-top: 15px;
+}
+.otherlink{
+    padding-top: 40%;
 }
 a{
-color:#4543db;
+    color:#4543db;
 }
 
 input[type="email"], input[type="password"] {
