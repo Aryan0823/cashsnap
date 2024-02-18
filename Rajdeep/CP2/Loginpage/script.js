@@ -1,18 +1,25 @@
 // script.js
 
-function togglePasswordVisibility(event) {
-    event.preventDefault(); // Prevent the default link behavior
+const togglePassword = document.querySelector("#togglePassword");
+const password = document.querySelector("#password");
 
-    var passwordField = document.querySelector('input[type="password"]');
-    var eyeIcon = document.getElementById('eye');
-
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
-        eyeIcon.classList.remove('fa-eye');
-        eyeIcon.classList.add('fa-eye-slash');
+togglePassword.addEventListener("click", function () {
+    // toggle the type attribute
+    const type = password.getAttribute("type") === "password" ? "text" : "password";
+    password.setAttribute("type", type);
+    
+    // toggle the icon
+    if (type === "password") {
+        this.classList.remove("bi-eye");
+        this.classList.add("bi-eye-slash");
     } else {
-        passwordField.type = "password";
-        eyeIcon.classList.remove('fa-eye-slash');
-        eyeIcon.classList.add('fa-eye');
+        this.classList.remove("bi-eye-slash");
+        this.classList.add("bi-eye");
     }
-}
+});
+
+// prevent form submit
+const form = document.querySelector("form");
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+});
