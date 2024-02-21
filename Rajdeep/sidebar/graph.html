@@ -1,0 +1,43 @@
+<div id="chartContainer" style="width: 400px; height: 200px;">
+    <canvas id="lineChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sample data for the chart
+    const data = {
+        labels: [0,1,2,3,4,5],
+        datasets: [{
+            label: '',
+            data: [0, 65, 59, 80, 81, 56, 55, 40], // Start from 0
+            fill: {
+                target: 'origin', // Fill below the line
+                above: 'rgb(75, 192, 192)', // Fill color above the line
+                below: 'rgba(75, 192, 192, 0.2)' // Fill color below the line
+            },
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            spanGaps: true // Remove undefined blocks
+        }]
+    };
+
+    // Configuration options
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true // Start the y-axis from 0
+            }
+        }
+    };
+
+    // Get the canvas element
+    const ctx = document.getElementById('lineChart').getContext('2d');
+
+    // Create the line chart
+    const lineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+</script>
