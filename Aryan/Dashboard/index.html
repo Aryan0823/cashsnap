@@ -6,9 +6,10 @@
         <title>Dashboard</title>
         <link rel="stylesheet" href="search.css">
         <link rel="stylesheet" href="card.css">
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
 <body>
-    
     <div class="container">
         <div class="wrap">
             <div class="search">
@@ -17,7 +18,7 @@
                     <img src="search_icon.svg">
                 </button>
             </div>
-        </div>
+        </div>       
         <div>
             <h1>Dashboard</h1>
             <h4>Welcome to Cashsnap</4h>
@@ -53,6 +54,49 @@
             <div class="card">
                 <h3>Balace Trends</h3>
                 <h1>Rs. 221,478</h1>
+                <div id="chartContainer" style="width: 100%; height: 300px; overflow: hidden;">
+                    <canvas id="lineChart" style="width: 100%; height: 100%;"></canvas>
+                </div>  
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    // Sample data for the chart
+                    const data = {
+                        labels: [0,1,2,3,4,5],
+                        datasets: [{
+                            label: '',
+                            data: [0, 65, 59, 80, 81, 56, 55, 40], // Start from 0
+                            fill: {
+                                target: 'origin', // Fill below the line
+                                above: 'rgb(75, 192, 192)', // Fill color above the line
+                                below: 'rgba(75, 192, 192, 0.2)' // Fill color below the line
+                            },
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1,
+                            spanGaps: true // Remove undefined blocks
+                        }]
+                    };
+
+                    // Configuration options
+                    const options = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true // Start the y-axis from 0
+                            }
+                        }
+                    };
+
+                    // Get the canvas element
+                    const ctx = document.getElementById('lineChart').getContext('2d');
+
+                    // Create the line chart
+                    const lineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: data,
+                        options: options
+                    });
+                </script>
             </div>
             <div class="card">
                 <h3>Monthly Expenses Breakdown</h3>
