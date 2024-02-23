@@ -4,40 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Management</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="c.css">
+    <link rel="stylesheet" href="search.css">
     
 </head>
 <body>
     <h1>Customer Management</h1>
-
-    <!-- Customer List -->
-    <div class="customer-list">
-        <h2>Customer List</h2>
-        <!-- Customer Table -->
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Customer rows will be dynamically added here -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Customer Actions -->
-    <div class="customer-actions">
-        <h2>Actions</h2>
-        <button id="add-customer">Add Customer</button>
-        <button id="remove-customer">Remove Customer</button>
-        <button id="update-customer">Update Customer</button>
-        <button id="customer-transactions">Customer Transactions</button>
-    </div>
-
-    <script src="c.js"></script>
+    <div class="container">
+        <div class="wrap">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="Search by customer name">
+                <button type="submit" class="searchButton">
+                    <img src="search_icon.svg">
+                </button>
+                
+                <button class="button">+ Add Customer</button>
+            </div>
+        </div> 
+        <div class="card-container">
+            <div class="card">
+                <div class="card"></div>
+            </div>        
+        </div>
+    </div>  
 </body>
 </html>

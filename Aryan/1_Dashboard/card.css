@@ -19,7 +19,7 @@ body{
     width: calc(25% - 30px); /* 20px is the combined margin/padding of .cards */
     margin-bottom: 20px;
     box-sizing: border-box;
-  }
+}
   
 .cards:hover {
     box-shadow: 0 4px 10px rgba(0,0,0,0.16), 0 4px 10px rgba(0,0,0,0.23);

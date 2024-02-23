@@ -1,0 +1,28 @@
+.button {
+    width:auto;
+    border: 1px solid #2F2CD8;
+    background: #2F2CD8;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    margin:0 10px;
+  }
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.card {
+    width:auto; 
+    margin-bottom: 20px;
+    background-color: #fefffe;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+.card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.16), 0 4px 10px rgba(0,0,0,0.23);
+}
