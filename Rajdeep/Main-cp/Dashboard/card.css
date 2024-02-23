@@ -2,8 +2,7 @@ body{
   background :#f6f8fd;
 }
 .cards {
-    /* margin: 0 auto; */
-    text-align: center;
+    text-align: start;
     display: -webkit-flex;
     display: flex;
     border-radius: 10px;
