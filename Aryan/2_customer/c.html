@@ -17,15 +17,28 @@
                 <button type="submit" class="searchButton">
                     <img src="search_icon.svg">
                 </button>
-                
-                <button class="button">+ Add Customer</button>
+                <button class="button" onclick="showAddCustomerPopup()">+ Add Customer</button>
             </div>
         </div> 
-        <div class="card-container">
-            <div class="card">
-                <div class="card"></div>
-            </div>        
+        <br>
+
+        <div id="cardContainer" class="card-container">
+            <!-- Customer cards will be dynamically added here -->
         </div>
-    </div>  
+    </div>
+
+    <!-- Popup for adding a new customer -->
+    <div id="addCustomerPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeAddCustomerPopup()">&times;</span>
+            <h2>Add Customer</h2>
+            <input type="text" id="customerName" placeholder="Customer Name">
+            <input type="text" id="phoneNumber" placeholder="Phone Number">
+            <input type="text" id="amount" placeholder="Amount">
+            <button onclick="addCustomer()">Submit</button>
+        </div>
+    </div>
+
+    <script src="c.js"></script>
 </body>
 </html>
