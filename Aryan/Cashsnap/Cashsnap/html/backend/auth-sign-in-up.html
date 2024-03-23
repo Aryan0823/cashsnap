@@ -173,6 +173,7 @@
               document.getElementById('loginForm').style.display = 'block';
               document.getElementById('registerForm').style.display = 'none';
               userDataDiv.style.display = 'none';
+              
           }
   
           function showRegisterForm() {
@@ -181,18 +182,33 @@
               userDataDiv.style.display = 'none';
           }
   
-          async function login(form) {
-              const email = form.email.value;
-              const password = form.password.value;
+         //  async function login(form) {
+         //      const email = form.email.value;
+         //      const password = form.password.value;
   
-              try {
-                  const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-                  const user = userCredential.user;
-                  showUserData(user);
-              } catch (error) {
-                  console.error(error);
-              }
-          }
+         //      try {
+         //          const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+         //          const user = userCredential.user;
+         //          showUserData(user);
+         //      } catch (error) {
+         //          console.error(error);
+         //      }
+         //  }
+          async function login(form) {
+               const email = form.email.value;
+               const password = form.password.value;
+
+               try {
+               // Sign in the user with email and password
+               const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+               // If authentication is successful, redirect to index.html
+               window.location.href = 'index.html';
+               } catch (error) {
+               // If authentication fails, display an error message
+               console.error(error);
+               alert('Incorrect email or password. Please try again.');
+               }
+            }
   
           async function register(form) {
               const firstname = form.firstname.value;
