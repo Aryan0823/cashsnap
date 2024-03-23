@@ -15525,7 +15525,7 @@ fieldset[disabled] .btn {
   z-index: 99; }
   .login-content .floating-label label {
     color: #676E8A;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     position: absolute;
     pointer-events: none;
@@ -15571,7 +15571,7 @@ fieldset[disabled] .btn {
   left: 6px;
   font-size: 10px;
   background: #ffffff;
-  padding: 5px 8px; }
+  padding: 0.0px 8px; }
 
 .floating-input:not(:placeholder-shown) {
   color: #676E8A;
@@ -15580,7 +15580,7 @@ fieldset[disabled] .btn {
     top: 0;
     font-size: 14px;
     background: #ffffff;
-    padding: 5px 8px; }
+    padding: 0.0px 8px; }
 
 @media (min-width: 992px) {
   .lb-img {
@@ -19205,7 +19205,7 @@ ul.iq-contact-rest li a p {
   top: 8px;
   left: 15px;
   color: #32BDEA;
-  font-size: 16px; }
+  font-size: 12px; }
 
 .chat-sidebar-name {
   width: 100%; }
