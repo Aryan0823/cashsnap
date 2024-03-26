@@ -135,15 +135,15 @@
       <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
       <script>
           const firebaseConfig = {
-              apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-              authDomain: "cashsnap-9a185.firebaseapp.com",
-              databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
-              projectId: "cashsnap-9a185",
-              storageBucket: "cashsnap-9a185.appspot.com",
-              messagingSenderId: "1046320871049",
-              appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-              measurementId: "G-5M366WH052"
-          };
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+            };
   
           firebase.initializeApp(firebaseConfig);
   
@@ -182,6 +182,18 @@
               userDataDiv.style.display = 'none';
           }
          
+         //  async function login(form) {
+         //      const email = form.email.value;
+         //      const password = form.password.value;
+  
+         //      try {
+         //          const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+         //          const user = userCredential.user;
+         //          showUserData(user);
+         //      } catch (error) {
+         //          console.error(error);
+         //      }
+         //  }
           async function login(form) {
                const email = form.email.value;
                const password = form.password.value;
