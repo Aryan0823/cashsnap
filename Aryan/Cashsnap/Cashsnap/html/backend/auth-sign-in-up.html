@@ -123,66 +123,123 @@
          </div>
       </section>
       </div>
-
       <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
       <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
       <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
       <script>
-        const firebaseConfig = {
-          // Your Firebase config
-        };
-        firebase.initializeApp(firebaseConfig);
-    
-        const db = firebase.firestore();
-    
-        // Register Form submission handler
-        const registerForm = document.getElementById('registerFormInner');
-        registerForm.addEventListener('submit', async (event) => {
-          event.preventDefault();
-          await register(event.target);
-        });
-    
-        async function register(form) {
-          const firstname = form.firstname.value;
-          const lastname = form.lastname.value;
-          const email = form.email.value;
-          const phone = form.phone.value;
-          const password = form.password.value;
-    
-          try {
-            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-    
-            // Write user data to Firestore
-            await db.collection('users').doc(user.uid).set({
-              firstname,
-              lastname,
-              email,
-              phone
-              // Add more fields as needed
-            });
-    
-            // Optionally, you can redirect the user to another page after successful registration
-            window.location.href = 'index.html';
-          } catch (error) {
-            console.error(error);
+          const firebaseConfig = {
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+            };
+  
+          firebase.initializeApp(firebaseConfig);
+          const db = firebase.firestore();
+          const loginForm = document.getElementById('loginFormInner');
+          const registerForm = document.getElementById('registerFormInner');
+          const userDataDiv = document.getElementById('userData');
+          const userEmailElement = document.getElementById('userEmail');
+  
+          loginForm.addEventListener('submit', async (event) => {
+              event.preventDefault();
+              await login(event.target);
+          });
+
+         registerForm.addEventListener('submit', async (event) => {
+                  event.preventDefault();
+                  await register(event.target);
+         });
+
+  
+          function showUserData(user) {
+              document.getElementById('loginForm').style.display = 'none';
+              document.getElementById('registerForm').style.display = 'none';
+              userDataDiv.style.display = 'block';
+              userEmailElement.innerText = `Hello, ${user.email}!`;
           }
-        }
+  
+          function showLoginForm() {
+              document.getElementById('loginForm').style.display = 'block';
+              document.getElementById('registerForm').style.display = 'none';
+              userDataDiv.style.display = 'none';
+              
+          }
+  
+          function showRegisterForm() {
+              document.getElementById('registerForm').style.display = 'block';
+              document.getElementById('loginForm').style.display = 'none';
+              userDataDiv.style.display = 'none';
+          }
+         
+        
+          async function login(form) {
+               const email = form.email.value;
+               const password = form.password.value;
+
+               try {
+
+               const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+
+               window.location.href = 'index.html';
+               } catch (error) {
+
+               console.error(error);
+               alert('Incorrect email or password. Please try again.');
+               }
+            }
+  
+            async function register(form) {
+               const firstname = form.firstname.value;
+               const lastname = form.lastname.value;
+               const email = form.email.value;
+               const phone = form.phone.value;
+               const password = form.password.value;
+
+               try {
+               const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+               const user = userCredential.user;
+
+               // Write user data to Firestore
+               await db.collection('users').doc(user.uid).set({
+                  firstname,
+                  lastname,
+                  email,
+                  phone
+                  // Add more fields as needed
+               });
+
+               // Optionally, you can redirect the user to another page after successful registration
+               window.location.href = 'index.html';
+               } catch (error) {
+               console.error(error);
+               }
+            }
+
+  
+          function logout() {
+              firebase.auth().signOut().then(() => {
+                  document.getElementById('loginForm').style.display = 'block';
+                  document.getElementById('registerForm').style.display = 'none';
+                  userDataDiv.style.display = 'none';
+              }).catch((error) => {
+                  console.error(error);
+              });
+          }
       </script>
+
+    <script src="../assets/js/backend-bundle.min.js"></script>
+
+    <script src="../assets/js/table-treeview.js"></script>
     
-      <!-- Backend Bundle JavaScript -->
-      <script src="../assets/js/backend-bundle.min.js"></script>
-      
-      <!-- Table Treeview JavaScript -->
-      <script src="../assets/js/table-treeview.js"></script>
-      
-      <!-- Chart Custom JavaScript -->
-      <script src="../assets/js/customizer.js"></script>
-      
-      <!-- Chart Custom JavaScript -->
-      <script async src="../assets/js/chart-custom.js"></script>
-      
-      <!-- app JavaScript -->
-      <script src="../assets/js/app.js"></script>
-    </body>
-    </html>
+    <script src="../assets/js/customizer.js"></script>
+    
+    <script async src="../assets/js/chart-custom.js"></script>
+
+    <script src="../assets/js/app.js"></script>
+  </body>
+</html>
