@@ -1003,6 +1003,9 @@ pre {
   .col-lg-6 {
     flex: 0 0 100%;
     max-width: 100%; }
+    .col-lg-6_1 {
+      flex: 0 0 50%;
+      max-width: 50%; }
   .col-lg-7 {
     flex: 0 0 58.33333%;
     max-width: 58.33333%; }
