@@ -48,21 +48,13 @@
                                                 <label>Password</label>
                                              </div>
                                           </div>
-                                          <!-- <div class="col-lg-6">
-                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label control-label-1" for="customCheck1">Remember Me</label>
-                                             </div>
-                                          </div> -->
+                                          
                                           <div class="col-lg-6">
                                              <a href="auth-recoverpw.html" class="text-primary float-right">Forgot Password?</a>
                                           </div>
                                        </div>
                                        <button type="submit" class="btn btn-primary">Sign In</button>
-                                       <!-- 
-                                       <p class="mt-3">
-                                          Create an Account <a href="auth-sign-up.html" class="text-primary">Sign Up</a>
-                                       </p> -->
+                                      
                                        <p class="signup">Don't have an account? <a href="#" class="su" onclick="showRegisterForm()">Sign Up</a></p>
                                     </form>
                                  </div>
@@ -131,124 +123,66 @@
          </div>
       </section>
       </div>
+
       <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
       <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
       <script>
-          const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-            };
-  
-          firebase.initializeApp(firebaseConfig);
-  
-          const loginForm = document.getElementById('loginFormInner');
-          const registerForm = document.getElementById('registerFormInner');
-          const userDataDiv = document.getElementById('userData');
-          const userEmailElement = document.getElementById('userEmail');
-  
-          loginForm.addEventListener('submit', async (event) => {
-              event.preventDefault();
-              await login(event.target);
-          });
-  
-          registerForm.addEventListener('submit', async (event) => {
-              event.preventDefault();
-              await register(event.target);
-          });
-  
-          function showUserData(user) {
-              document.getElementById('loginForm').style.display = 'none';
-              document.getElementById('registerForm').style.display = 'none';
-              userDataDiv.style.display = 'block';
-              userEmailElement.innerText = `Hello, ${user.email}!`;
+        const firebaseConfig = {
+          // Your Firebase config
+        };
+        firebase.initializeApp(firebaseConfig);
+    
+        const db = firebase.firestore();
+    
+        // Register Form submission handler
+        const registerForm = document.getElementById('registerFormInner');
+        registerForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          await register(event.target);
+        });
+    
+        async function register(form) {
+          const firstname = form.firstname.value;
+          const lastname = form.lastname.value;
+          const email = form.email.value;
+          const phone = form.phone.value;
+          const password = form.password.value;
+    
+          try {
+            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+    
+            // Write user data to Firestore
+            await db.collection('users').doc(user.uid).set({
+              firstname,
+              lastname,
+              email,
+              phone
+              // Add more fields as needed
+            });
+    
+            // Optionally, you can redirect the user to another page after successful registration
+            window.location.href = 'index.html';
+          } catch (error) {
+            console.error(error);
           }
-  
-          function showLoginForm() {
-              document.getElementById('loginForm').style.display = 'block';
-              document.getElementById('registerForm').style.display = 'none';
-              userDataDiv.style.display = 'none';
-              
-          }
-  
-          function showRegisterForm() {
-              document.getElementById('registerForm').style.display = 'block';
-              document.getElementById('loginForm').style.display = 'none';
-              userDataDiv.style.display = 'none';
-          }
-         
-         //  async function login(form) {
-         //      const email = form.email.value;
-         //      const password = form.password.value;
-  
-         //      try {
-         //          const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-         //          const user = userCredential.user;
-         //          showUserData(user);
-         //      } catch (error) {
-         //          console.error(error);
-         //      }
-         //  }
-          async function login(form) {
-               const email = form.email.value;
-               const password = form.password.value;
-
-               try {
-               // Sign in the user with email and password
-               const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-               // If authentication is successful, redirect to index.html
-               window.location.href = 'index.html';
-               } catch (error) {
-               // If authentication fails, display an error message
-               console.error(error);
-               alert('Incorrect email or password. Please try again.');
-               }
-            }
-  
-          async function register(form) {
-              const firstname = form.firstname.value;
-              const lastname = form.lastname.value;
-              const email = form.email.value;
-              const phone = form.phone.value;
-              const password = form.password.value;
-  
-              try {
-                  const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                  const user = userCredential.user;
-                  showUserData(user);
-              } catch (error) {
-                  console.error(error);
-              }
-          }
-  
-          function logout() {
-              firebase.auth().signOut().then(() => {
-                  document.getElementById('loginForm').style.display = 'block';
-                  document.getElementById('registerForm').style.display = 'none';
-                  userDataDiv.style.display = 'none';
-              }).catch((error) => {
-                  console.error(error);
-              });
-          }
+        }
       </script>
-    <!-- Backend Bundle JavaScript -->
-    <script src="../assets/js/backend-bundle.min.js"></script>
     
-    <!-- Table Treeview JavaScript -->
-    <script src="../assets/js/table-treeview.js"></script>
-    
-    <!-- Chart Custom JavaScript -->
-    <script src="../assets/js/customizer.js"></script>
-    
-    <!-- Chart Custom JavaScript -->
-    <script async src="../assets/js/chart-custom.js"></script>
-    
-    <!-- app JavaScript -->
-    <script src="../assets/js/app.js"></script>
-  </body>
-</html>
+      <!-- Backend Bundle JavaScript -->
+      <script src="../assets/js/backend-bundle.min.js"></script>
+      
+      <!-- Table Treeview JavaScript -->
+      <script src="../assets/js/table-treeview.js"></script>
+      
+      <!-- Chart Custom JavaScript -->
+      <script src="../assets/js/customizer.js"></script>
+      
+      <!-- Chart Custom JavaScript -->
+      <script async src="../assets/js/chart-custom.js"></script>
+      
+      <!-- app JavaScript -->
+      <script src="../assets/js/app.js"></script>
+    </body>
+    </html>
