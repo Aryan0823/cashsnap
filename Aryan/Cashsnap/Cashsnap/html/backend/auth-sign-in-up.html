@@ -123,138 +123,40 @@
          </div>
       </section>
       </div>
-         <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-         <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-         <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-         <script>
-          const firebaseConfig = {
-               apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-               authDomain: "cashsnap-9a185.firebaseapp.com",
-               databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
-               projectId: "cashsnap-9a185",
-               storageBucket: "cashsnap-9a185.appspot.com",
-               messagingSenderId: "1046320871049",
-               appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-               measurementId: "G-5M366WH052"
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+      <script>
+          const firebaseConfig = {
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
             };
-          firebase.initializeApp(firebaseConfig);
-          const db = firebase.firestore();
-      
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          const phoneRegex = /^[1-9][0-9]{9}$/;
-      
-          const loginForm = document.getElementById('loginFormInner');
+  
+          firebase.initializeApp(firebaseConfig);
+          const db = firebase.firestore();
+          
+          const loginForm = document.getElementById('loginFormInner');
           const registerForm = document.getElementById('registerFormInner');
           const userDataDiv = document.getElementById('userData');
           const userEmailElement = document.getElementById('userEmail');
-      
-          loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            if (validateLoginForm()) {
-              await login(event.target);
-            }
-          });
-      
-          registerForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            if (validateRegisterForm()) {
-              await register(event.target);
-            }
-          });
-      
-          function validateLoginForm() {
-            const email = loginForm.email.value.trim();
-            const password = loginForm.password.value.trim();
-      
-            if (email === '' || password === '') {
-              alert('Please fill in all fields.');
-              return false;
-            }
-            if (!emailRegex.test(email)) {
-              alert('Please enter a valid email address.');
-              return false;
-            }
-            return true;
-          }
-      
-          function validateRegisterForm() {
-            const firstname = registerForm.firstname.value.trim();
-            const lastname = registerForm.lastname.value.trim();
-            const email = registerForm.email.value.trim();
-            const phone = registerForm.phone.value.trim();
-            const password = registerForm.password.value.trim();
-            const termsChecked = registerForm.customCheck1.checked;
-      
-          if (firstname === '' || lastname === '' || email === '' || phone === '' || password === '') {
-              alert('Please fill in all fields.');
-              return false;
-            }
-            if (!emailRegex.test(email)) {
-              alert('Please enter a valid email address.');
-              return false;
-            }
-            if (!phoneRegex.test(phone)) {
-              alert('Please enter a valid 10-digit phone number.');
-              return false;
-            }
-            if (!termsChecked) {
-              alert('Please agree to the terms of use.');
-              return false;
-            }
-            return true;
-          }
-      
-          async function login(form) {
-            const email = form.email.value;
-            const password = form.password.value;
-      
-            try {
-              const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-              window.location.href = 'index.html';
-            } catch (error) {
-              console.error(error);
-              alert('Incorrect email or password. Please try again.');
-            }
-          }
-      
-            async function register(form) {
-               const firstname = form.firstname.value;
-               const lastname = form.lastname.value;
-               const email = form.email.value;
-               const phone = form.phone.value;
-               const password = form.password.value;
+  
+          loginForm.addEventListener('submit', async (event) => {
+              event.preventDefault();
+              await login(event.target);
+          });
 
-               const emailQuery = await db.collection('users').where('email', '==', email).get();
-               const phoneQuery = await db.collection('users').where('phone', '==', phone).get();
+         registerForm.addEventListener('submit', async (event) => {
+                  event.preventDefault();
+                  await register(event.target);
+         });
 
-               if (!emailQuery.empty) {
-                  alert('User with this email already exists. Please use a different email.');
-                  return;
-               }
-
-               if (!phoneQuery.empty) {
-                  alert('User with this phone number already exists. Please use a different phone number.');
-                  return;
-               }
-
-               try {
-                  const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                  const user = userCredential.user;
-
-                  // Write user data to Firestore
-                  await db.collection('users').doc(user.uid).set({
-                  firstname,
-                  lastname,
-                  email,
-                  phone
-                  });
-
-                  window.location.href = 'auth-thanks-for-registration.html';
-               } catch (error) {
-                  console.error(error);
-               }
-            }
-
+  
           function showUserData(user) {
               document.getElementById('loginForm').style.display = 'none';
               document.getElementById('registerForm').style.display = 'none';
@@ -274,23 +176,93 @@
               document.getElementById('loginForm').style.display = 'none';
               userDataDiv.style.display = 'none';
           }
+         
+        
+          async function login(form) {
+            const email = form.email.value;
+            const password = form.password.value;
 
-          function logout() {
-               firebase.auth().signOut().then(() => {
-                     document.getElementById('loginForm').style.display = 'block';
-                     document.getElementById('registerForm').style.display = 'none';
-                     userDataDiv.style.display = 'none';
-               }).catch((error) => {
-                     console.error(error);
-               });
+            if (!validateEmail(email)) {
+               alert('Please enter a valid email address.');
+               return;
             }
-            
-        </script>
-      
-        <script src="../assets/js/backend-bundle.min.js"></script>
-        <script src="../assets/js/table-treeview.js"></script>
-        <script src="../assets/js/customizer.js"></script>
-        <script async src="../assets/js/chart-custom.js"></script>
-        <script src="../assets/js/app.js"></script>
+
+            try {
+               const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+               window.location.href = 'index.html';
+            } catch (error) {
+               console.error(error);
+               alert('Incorrect email or password. Please try again.');
+            }
+         }
+
+         async function register(form) {
+            const firstname = form.firstname.value;
+            const lastname = form.lastname.value;
+            const email = form.email.value;
+            const phone = form.phone.value;
+            const password = form.password.value;
+
+            if (!validateEmail(email)) {
+               alert('Please enter a valid email address.');
+               return;
+            }
+
+            if (!validatePhone(phone)) {
+               alert('Please enter a valid phone number.');
+               return;
+            }
+
+            try {
+               const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+               const user = userCredential.user;
+
+               // Write user data to Firestore
+               await db.collection('users').doc(user.uid).set({
+                     firstname,
+                     lastname,
+                     email,
+                     phone
+                     // Add more fields as needed
+               });
+
+               window.location.href = 'auth-thanks-for-registration.html';
+            } catch (error) {
+               console.error(error);
+            }
+         }
+
+         function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+         }
+
+         function validatePhone(phone) {
+            const phoneRegex = /^[6-9]\d{9}$/; // Start with 6 to 9, followed by 9 digits
+            return phoneRegex.test(phone);
+         }
+
+
+  
+          function logout() {
+              firebase.auth().signOut().then(() => {
+                  document.getElementById('loginForm').style.display = 'block';
+                  document.getElementById('registerForm').style.display = 'none';
+                  userDataDiv.style.display = 'none';
+              }).catch((error) => {
+                  console.error(error);
+              });
+          }
+      </script>
+
+    <script src="../assets/js/backend-bundle.min.js"></script>
+
+    <script src="../assets/js/table-treeview.js"></script>
+    
+    <script src="../assets/js/customizer.js"></script>
+    
+    <script async src="../assets/js/chart-custom.js"></script>
+
+    <script src="../assets/js/app.js"></script>
   </body>
 </html>
