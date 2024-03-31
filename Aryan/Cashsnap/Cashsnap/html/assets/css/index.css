@@ -41,9 +41,16 @@
     box-sizing: border-box;
   }
   .nav-button {
+    border: none;
+    background-color: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    color: #000000;
+    }
+
     
   }
-  
   .about {
     min-width: 60px;
   }
