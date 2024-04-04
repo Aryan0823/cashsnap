@@ -48,7 +48,6 @@
     display: inline-block;
     color: #000000;
     }
-    
   .about {
     min-width: 60px;
   }
@@ -276,7 +275,7 @@
     overflow: hidden;
     object-fit: cover;
     min-width: 396px;
-    margin-left: 40%;
+    margin-left:auto;
   }
   .background-box-parent,
   .desktop-1 {
