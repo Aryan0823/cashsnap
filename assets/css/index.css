@@ -47,6 +47,7 @@
     cursor: pointer;
     display: inline-block;
     color: #000000;
+    font-weight: bold;
     }
   .about {
     min-width: 60px;
@@ -127,6 +128,7 @@
     /* Hover state */
     .rectangle-parent:hover .login {
         color: white; /* Text color on hover */
+        font-weight: bold;
     }
     
     .rectangle-parent:hover {
