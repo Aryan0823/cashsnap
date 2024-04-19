@@ -479,11 +479,11 @@
                                                       class="rounded profile-img img-fluid avatar-70">
                                               </div>
                                               <div class="p-3">
-                                                  <h5 class="mb-1">JoanDuo@property.com</h5>
+                                                <h5 class="mb-1">JoanDuo@property.com</h5>
                                                   <!-- <p class="mb-0">Since 10 march, 2020</p> -->
                                                   <div class="d-flex align-items-center justify-content-center mt-3">
                                                       <a href="/app/user-profile.html" class="btn border mr-2">Profile</a>
-                                                      <a href="auth-sign-in-up.html" class="btn border">Sign Out</a>
+                                                      <a id="SignOutbtn" href="auth-sign-in-up.html" class="btn border">Sign Out</a>
                                                   </div>
                                               </div>
                                           </div>
@@ -525,7 +525,7 @@
             <div class="col-lg-4">
                 <div class="card card-transparent card-block card-stretch card-height border-none">
                     <div class="card-body p-0 mt-lg-2 mt-0">
-                        <h3 class="mb-3">Hi {user name}, <br> Good {Morning}!</h3>
+                        <h3 id="GreetMsg" class="mb-3">Hi {user name}, <br> Good {Morning}!</h3>
                         <p class="mb-0 mr-4">Your dashboard gives you views of key performance or business process.</p>
                     </div>
                 </div>
@@ -756,21 +756,41 @@
             </div>
         </div>
     </footer>
+
+    <script>
+    let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+    let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+    let GreetHead = document.getElementById('GreetMsg')
+    let SignoutButton = document.getElementById('SignOutbtn')
+
+    
+    let Signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "./login.html"
+    } 
+
+    let checkCred = () =>{
+        if(!sessionStorage.getItem("user-creds")){
+            window.location.href = "./auth-sign-in.html"
+        }
+        
+        else{
+            // MsgHead.innerText = `user with email ${userCreds.email} and mobile number ${userInfo.mobilenumber}`
+            GreetHead.innerText = `welcome ${userInfo.firstname}  ${userInfo.lastname}! `
+        }
+    }
+
+    window.addEventListener('load',checkCred);
+    SignoutButton.addEventListener('click',Signout);
+    </script>
     <script src="/assets/js/firebaseconfig.js"></script>
-    
-    <!-- Backend Bundle JavaScript -->
+    <script src="/assets/js/dashboard.js"></script>
     <script src="/assets/js/backend-bundle.min.js"></script>
-    
-    <!-- Table Treeview JavaScript -->
     <script src="/assets/js/table-treeview.js"></script>
-    
-    <!-- Chart Custom JavaScript -->
     <script src="/assets/js/customizer.js"></script>
-    
-    <!-- Chart Custom JavaScript -->
     <script async src="/assets/js/chart-custom.js"></script>
-    
-    <!-- app JavaScript -->
     <script src="/assets/js/app.js"></script>
   </body>
 </html>

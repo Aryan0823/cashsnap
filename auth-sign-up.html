@@ -67,31 +67,31 @@
                                       <div class="row">
                                          <div class="col-lg-6">
                                             <div class="floating-label form-group">
-                                               <input class="floating-input form-control" name="firstname" type="text" placeholder=" ">
+                                               <input id="fnameInput" class="floating-input form-control" name="firstname" type="text" placeholder=" ">
                                                <label>First Name</label>
                                             </div>
                                          </div>
                                          <div class="col-lg-6">
                                             <div class="floating-label form-group">
-                                               <input class="floating-input form-control" name="lastname" type="text" placeholder=" ">
+                                               <input id="lnameInput" class="floating-input form-control" name="lastname" type="text" placeholder=" ">
                                                <label>Last Name</label>
                                             </div>
                                          </div>
                                          <div class="col-lg-6">
                                             <div class="floating-label form-group">
-                                               <input class="floating-input form-control" name="email" type="email" placeholder=" ">
+                                               <input id="emailInput" class="floating-input form-control" name="email" type="email" placeholder=" ">
                                                <label>Email</label>
                                             </div>
                                          </div>
                                          <div class="col-lg-6">
                                             <div class="floating-label form-group">
-                                               <input class="floating-input form-control" name="phone" type="text" placeholder=" ">
+                                               <input id="numberInput" class="floating-input form-control" name="phone" type="text" placeholder=" ">
                                                <label>Phone No.</label>
                                             </div>
                                          </div>
                                          <div class="col-lg-6">
                                             <div class="floating-label form-group">
-                                               <input class="floating-input form-control" name="password" type="password" placeholder=" ">
+                                               <input id="passwordInput" class="floating-input form-control" name="password" type="password" placeholder=" ">
                                                <label>Password</label>
                                             </div>
                                          </div>
@@ -129,124 +129,59 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="/assets/js/firebaseconfig.js"></script>
-  <script>
-
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.firestore();
+   <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getFirestore,doc,setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getAuth , createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            databaseURL: "https://cashsnap-9a185-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+                              };
       
-      const loginForm = document.getElementById('loginFormInner');
-      const registerForm = document.getElementById('registerFormInner');
-      const userDataDiv = document.getElementById('userData');
-      const userEmailElement = document.getElementById('userEmail');
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
 
-      // loginForm.addEventListener('submit', async (event) => {
-      //     event.preventDefault();
-      //     await login(event.target);
-      // });
+        const db = getFirestore();
+        const auth = getAuth(app);
 
-      registerForm.addEventListener('submit', async (event) => {
-               event.preventDefault();
-               await register(event.target);
-      });
+        let EmailInp = document.getElementById('emailInput')
+        let PassInp = document.getElementById('passwordInput')
+        let FnameInp = document.getElementById('fnameInput')
+        let LnameInp = document.getElementById('lnameInput')
+        let MainForm = document.getElementById('registerFormInner')
+        let numInp = document.getElementById('numberInput')
 
+        let RegisterUser = evt => {
+            evt.preventDefault();
+            createUserWithEmailAndPassword(auth,EmailInp.value,PassInp.value)
+            .then(async (credentials) => {
+                var ref = doc(db,"users",credentials.user.uid);
+                await setDoc(ref,{
+                    email : EmailInp.value,
+                    firstname : FnameInp.value,
+                    lastname : LnameInp.value,
+                    mobilenumber : numInp.value
+                })
+                console.log(credentials);
+                window.location.href = "./auth-sign-in.html";
 
-      function showUserData(user) {
-          document.getElementById('loginForm').style.display = 'none';
-          document.getElementById('registerForm').style.display = 'none';
-          userDataDiv.style.display = 'block';
-          userEmailElement.innerText = `Hello, ${user.email}!`;
-      }
-
-      // function showLoginForm() {
-      //     document.getElementById('loginForm').style.display = 'block';
-      //     document.getElementById('registerForm').style.display = 'none';
-      //     userDataDiv.style.display = 'none';
-          
-      // }
-
-      function showRegisterForm() {
-          document.getElementById('registerForm').style.display = 'none';
-         //  document.getElementById('loginForm').style.display = 'none';
-          userDataDiv.style.display = 'none';
-      }
-     
-    
-      // async function login(form) {
-      //   const email = form.email.value;
-      //   const password = form.password.value;
-
-      //   if (!validateEmail(email)) {
-      //      alert('Please enter a valid email address.');
-      //      return;
-      //   }
-
-      //   try {
-      //      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-      //      window.location.href = 'dashboard.html';
-      //   } catch (error) {
-      //      console.error(error);
-      //      alert('Incorrect email or password. Please try again.');
-      //   }
-      // }
-
-     async function register(form) {
-        const firstname = form.firstname.value;
-        const lastname = form.lastname.value;
-        const email = form.email.value;
-        const phone = form.phone.value;
-        const password = form.password.value;
-
-        if (!validateEmail(email)) {
-           alert('Please enter a valid email address.');
-           return;
+            })
+            .catch((error) => {
+                alert(error.message);
+                console.log(error.code);
+                console.log(error.message);
+            })
         }
+        MainForm.addEventListener('submit',RegisterUser);
+      </script>
 
-        if (!validatePhone(phone)) {
-           alert('Please enter a valid phone number.');
-           return;
-        }
-
-        try {
-           const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-           const user = userCredential.user;
-
-           // Write user data to Firestore
-           await db.collection('users').doc(user.uid).set({
-                 firstname,
-                 lastname,
-                 email,
-                 phone
-
-           });
-
-           window.location.href = 'auth-thanks-for-registration.html';
-        } catch (error) {
-           console.error(error);
-        }
-     }
-
-     function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-     }
-
-     function validatePhone(phone) {
-        const phoneRegex = /^[6-9]\d{9}$/; // Start with 6 to 9, followed by 9 digits
-        return phoneRegex.test(phone);
-     }
-
-
-
-      function logout() {
-          firebase.auth().signOut().then(() => {
-              document.getElementById('loginForm').style.display = 'block';
-              document.getElementById('registerForm').style.display = 'none';
-              userDataDiv.style.display = 'none';
-          }).catch((error) => {
-              console.error(error);
-          });
-      }
-  </script>
    <script src="/assets/js/backend-bundle.min.js"></script>
    <script src="/assets/js/table-treeview.js"></script>
    <script src="/assets/js/customizer.js"></script>
