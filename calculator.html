@@ -160,6 +160,29 @@
             background-color: #f9adad;
             color: #000;
         }
+        /* Add styles for the transactions table */
+        .transactions {
+        margin-top: 20px;
+        }
+
+        #transactions-table {
+        width: 100%;
+        border-collapse: collapse;
+        }
+
+        #transactions-table th, #transactions-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+        }
+
+        #transactions-table th {
+        background-color: #f0f0f0;
+        }
+
+        #transactions-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+        }
         </style>
     </head>
   <body class="  ">
@@ -718,8 +741,8 @@
                     </table>
                 </div>
             </div>
-            
         </div>
+
         <script type="module">
             // Firebase initialization
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -833,7 +856,8 @@
         
             cashInButton.addEventListener('click', () => InsertData("Cashin"));
             cashOutButton.addEventListener('click', () => InsertData("Cashout"));
-        </script>
+
+          </script>
       </div>
     </div>
     <!-- Wrapper End-->
