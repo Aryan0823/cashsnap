@@ -720,8 +720,8 @@
             </div>
             
         </div>
-<!--         
-        <script type="module">
+         
+        <!-- <script type="module">
             // Firebase initialization
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
             import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
@@ -802,14 +802,142 @@
                     return;
                 }
                 lastClickTime = currentTime;
-        
+
                 const timestamp = Date.now(); // Get the current timestamp in milliseconds
+                const date = new Date(timestamp);
+                const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+                let transactionType;
+
+                if (item.id === "cashIn") {
+                    transactionType = "CashIn";
+                } else if (item.id === "cashOut") {
+                    transactionType = "CashOut";
+                } else {
+                    return;
+                }
+
+                if (currentUser) {
+                    const userRef = db.collection("Data").doc(currentUser.uid);
+                    const transactionsRef = userRef.collection("transactions");
+                    const dailyTransactionsRef = transactionsRef.doc(formattedDate);
+
+                    dailyTransactionsRef.set({
+                    Date: formattedDate,
+                    Time: formattedTime,
+                    TransactionType: transactionType,
+                    Amount: grandTotal,
+                    })
+                    .then(() => {
+                        alert("Data added successfully");
+                    })
+                    .catch((error) => {
+                        alert(error);
+                    });
+                } else {
+                    alert("Please sign in to add transactions.");
+                }
+            }
+        
+            cashInButton.addEventListener('click', () => InsertData({ id: "cashIn" }));
+            cashOutButton.addEventListener('click', () => InsertData({ id: "cashOut" }));
+        </script>  -->
+        <!-- <script type="module">
+            // Firebase initialization
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+            import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+            const firebaseConfig = {
+                apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+                authDomain: "cashsnap-9a185.firebaseapp.com",
+                projectId: "cashsnap-9a185",
+                storageBucket: "cashsnap-9a185.appspot.com",
+                messagingSenderId: "1046320871049",
+                appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+                measurementId: "G-5M366WH052"
+            };
+        
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+        
+            // Your basic calculation code
+            const display = document.querySelector("#display");
+            const buttons = document.querySelectorAll("button");
+            const grandTotalDisplay = document.getElementById("grandTotalDisplay");
+            let grandTotal = 0;
+            let currentUser = null;
+        
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                } else {
+                    // User is signed out
+                }
+            });
+        
+            buttons.forEach((item) => {
+                item.onclick = () => {
+                    if (item.id == "clear") {
+                        display.innerText = "";
+                    } else if (item.id == "backspace") {
+                        // Backspace functionality
+                    } else if (display.innerText != "" && item.id == "equal") {
+                        grandTotal = eval(display.innerText);
+                        display.innerText = grandTotal;
+                        updateGrandTotalDisplay(); // Update the grandTotal display
+                    } else if (display.innerText == "" && item.id == "equal") {
+                        display.innerText = "Empty!";
+                        setTimeout(() => {
+                            display.innerText = "";
+                        }, 2000);
+                    } else if (item.id == "allclear") {
+                        display.innerText = "";
+                        grandTotal = 0;
+                        updateGrandTotalDisplay(); // Update the grandTotal display
+                    } else if (item.id == "cashIn" || item.id == "cashOut") {
+                        console.log("Clicked cash in or cash out button.");
+                        InsertData(item);
+                    } else {
+                        display.innerText += item.id;
+                    }
+                };
+            });
+        
+            function updateGrandTotalDisplay() {
+                grandTotalDisplay.innerText = `${grandTotal}`;
+            }
+        
+            let lastClickTime = 0;
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    console.log("User signed in:", currentUser.uid);
+                } else {
+                    currentUser = null;
+                    console.log("User signed out.");
+                }
+            });
+        
+            const cashInButton = document.getElementById("cashIn");
+            const cashOutButton = document.getElementById("cashOut");
+        
+            function InsertData(item) {
+                if (!currentUser) {
+                    alert("Please sign in to add transactions.");
+                    return;
+                }
+        
+                const timestamp = Date.now();
                 const date = new Date(timestamp);
                 const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
                 const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
         
                 let transactionType;
-        
                 if (item.id === "cashIn") {
                     transactionType = "CashIn";
                 } else if (item.id === "cashOut") {
@@ -818,24 +946,20 @@
                     return;
                 }
         
-                if (currentUser) {
-                    const userTransactionsRef = collection(db, "Data", currentUser.uid, formattedDate);
+                const userDocRef = doc(db, "Data", currentUser.uid);
+                const transactionsRef = collection(userDocRef, "transactions");
+                const dailyTransactionDocRef = doc(transactionsRef, formattedDate);
         
-                    addDoc(userTransactionsRef, {
-                        Date: formattedDate,
-                        Time: formattedTime,
-                        TransactionType: transactionType,
-                        Amount: grandTotal,
-                    })
-                        .then(() => {
-                            alert("Data added successfully");
-                        })
-                        .catch((error) => {
-                            alert(error);
-                        });
-                } else {
-                    alert("Please sign in to add transactions.");
-                }
+                setDoc(dailyTransactionDocRef, {
+                    Date: formattedDate,
+                    Time: formattedTime,
+                    TransactionType: transactionType,
+                    Amount: grandTotal,
+                }).then(() => {
+                    alert("Data added successfully");
+                }).catch((error) => {
+                    alert("Error adding data: " + error);
+                });
             }
         
             cashInButton.addEventListener('click', () => InsertData({ id: "cashIn" }));
@@ -863,6 +987,13 @@
             const db = getFirestore(app);
             const auth = getAuth(app);
         
+            // Your basic calculation code
+            const display = document.querySelector("#display");
+            const buttons = document.querySelectorAll("button");
+            const grandTotalDisplay = document.getElementById("grandTotalDisplay");
+            const cashInButton = document.getElementById("cashIn");
+            const cashOutButton = document.getElementById("cashOut");
+            let grandTotal = 0;
             let currentUser = null;
         
             onAuthStateChanged(auth, (user) => {
@@ -873,48 +1004,81 @@
                 }
             });
         
-            const cashInButton = document.getElementById("cashIn");
-            const cashOutButton = document.getElementById("cashOut");
+            buttons.forEach((item) => {
+                item.onclick = () => {
+                    if (item.id == "clear") {
+                        display.innerText = "";
+                    } else if (item.id == "backspace") {
+                        // Backspace functionality
+                    } else if (display.innerText != "" && item.id == "equal") {
+                        grandTotal = eval(display.innerText);
+                        display.innerText = grandTotal;
+                        updateGrandTotalDisplay(); // Update the grandTotal display
+                    } else if (display.innerText == "" && item.id == "equal") {
+                        display.innerText = "Empty!";
+                        setTimeout(() => {
+                            display.innerText = "";
+                        }, 2000);
+                    } else if (item.id == "allclear") {
+                        display.innerText = "";
+                        grandTotal = 0;
+                        updateGrandTotalDisplay(); // Update the grandTotal display
+                    } else if (item.id == "cashIn") {
+                        InsertData("Cashin");
+                    } else if (item.id == "cashOut") {
+                        InsertData("Cashout");
+                    } else {
+                        display.innerText += item.id;
+                    }
+                };
+            });
         
-            function InsertData(item) {
-                if (!currentUser) {
-                    alert("Please sign in to add transactions.");
+            function updateGrandTotalDisplay() {
+                grandTotalDisplay.innerText = `${grandTotal}`;
+            }
+        
+            let lastClickTime = 0;
+        
+            function InsertData(transactionType) {
+                const currentTime = Date.now();
+                if (currentTime - lastClickTime < 1000) {
+                    // Ignore multiple clicks within 1 second
                     return;
                 }
+                lastClickTime = currentTime;
         
-                const timestamp = Date.now();
+                const timestamp = Date.now(); // Get the current timestamp in milliseconds
                 const date = new Date(timestamp);
                 const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
                 const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
         
-                let transactionType;
-                if (item.id === "cashIn") {
-                    transactionType = "CashIn";
-                } else if (item.id === "cashOut") {
-                    transactionType = "CashOut";
+                if (currentUser) {
+                    const userRef = doc(db, "Data", currentUser.uid);
+                    const transactionRef = collection(userRef, "transactions");
+                    const transactionTypeRef = doc(transactionRef, transactionType);
+                    const formattedDateRef = collection(transactionTypeRef, formattedDate);
+                    const formattedTimeRef = doc(formattedDateRef, formattedTime);
+        
+                    setDoc(formattedTimeRef, {
+                        Date: formattedDate,
+                        Time: formattedTime,
+                        TransactionType: transactionType,
+                        Amount: grandTotal,
+                    })
+                    .then(() => {
+                        alert("Data added successfully");
+                    })
+                    .catch((error) => {
+                        alert(error);
+                    });
                 } else {
-                    return;
+                    alert("Please sign in to add transactions.");
                 }
-        
-                const userDocRef = doc(db, "Data", currentUser.uid, "transactions", formattedDate);
-        
-                setDoc(userDocRef, {
-                    Date: formattedDate,
-                    Time: formattedTime,
-                    TransactionType: transactionType,
-                    Amount: 0, // Placeholder for amount, modify as needed
-                }).then(() => {
-                    alert("Data added successfully");
-                }).catch((error) => {
-                    alert(error);
-                });
             }
         
-            cashInButton.addEventListener('click', () => InsertData({ id: "cashIn" }));
-            cashOutButton.addEventListener('click', () => InsertData({ id: "cashOut" }));
+            cashInButton.addEventListener('click', () => InsertData("Cashin"));
+            cashOutButton.addEventListener('click', () => InsertData("Cashout"));
         </script>
-        
-        
       </div>
     </div>
     <!-- Wrapper End-->
