@@ -683,14 +683,19 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
     
+        const name = document.getElementById("name");
         const code = document.getElementById("code");
-        const code = document.getElementById("code");
-        const code = document.getElementById("code");
-        const code = document.getElementById("code");
-        const code = document.getElementById("code");
-        const code = document.getElementById("code");
-        const code = document.getElementById("code");
-        
+        const productType = document.getElementById("productType");
+        const barcode = document.getElementById("barcode");
+        const category = document.getElementById("category");
+        const cost = document.getElementById("cost");
+        const price = document.getElementById("price");
+        const taxMethod = document.getElementById("tax");
+        const quantity = document.getElementById("code");
+        const image = document.getElementById("image");
+        const description = document.getElementById("description");
+        const addproduct = document.getElementById("submit");
+
         let grandTotal = 0;
         let currentUser = null;
     
@@ -722,8 +727,7 @@
                 const userRef = doc(db, "Data", currentUser.uid);
                 const productRef = collection(userRef, "products");
                 const productcodeRef = doc(productRef, code);
-                // const formattedDateRef = collection(transactionTypeRef, formattedDate);
-                // const formattedTimeRef = doc(formattedDateRef, formattedTime);
+
     
                 setDoc(productcodeRef, {
                     Date: formattedDate,
@@ -742,8 +746,8 @@
             }
         }
     
-        cashInButton.addEventListener('click', () => InsertData("Cashin"));
-        cashOutButton.addEventListener('click', () => InsertData("Cashout"));
+        addproduct.addEventListener('click', () => InsertData("code"));
+  
 
       </script>
 
