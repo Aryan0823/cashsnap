@@ -710,50 +710,49 @@
     
         let lastClickTime = 0;
     
-        function InsertData(code) {
-            const currentTime = Date.now();
-            if (currentTime - lastClickTime < 1000) {
-                // Ignore multiple clicks within 1 second
-                return;
-            }
-            lastClickTime = currentTime;
-    
-            const timestamp = Date.now(); // Get the current timestamp in milliseconds
-            const date = new Date(timestamp);
-            const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-            const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    
-            if (currentUser) {
-                const userRef = doc(db, "Data", currentUser.uid);
-                const productRef = collection(userRef, "products");
-                const productcodeRef = doc(productRef, code);
+        function InsertData() {
+                const currentTime = Date.now();
+                if (currentTime - lastClickTime < 1000) {
+                    // Ignore multiple clicks within 1 second
+                    return;
+                }
+                lastClickTime = currentTime;
 
-    
-                setDoc(productcodeRef, {
-                    Date: formattedDate,
-                    Time: formattedTime,
-                    Code: code,
-                    Name: name,
-                    ProductType: productType,
-                    Barcode: barcode,
-                    Category: category,
-                    Cost: cost,
-                    Price: price,
-                    TaxMethod: taxMethod,
-                    Quantity: quantity
-                })
-                .then(() => {
-                    alert("Data added successfully");
-                })
-                .catch((error) => {
-                    alert(error);
-                });
-            } else {
-                alert("Please sign in to add transactions.");
+                const timestamp = Date.now(); // Get the current timestamp in milliseconds
+                const date = new Date(timestamp);
+                const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+                if (currentUser) {
+                    const userRef = doc(db, "Data", currentUser.uid);
+                    const productRef = collection(userRef, "products");
+                    const productcodeRef = doc(productRef, code.value); // Accessing code value
+
+                    setDoc(productcodeRef, {
+                        Date: formattedDate,
+                        Time: formattedTime,
+                        Code: code.value, // Accessing code value
+                        Name: name.value, // Accessing name value
+                        ProductType: productType.value, // Accessing productType value
+                        Barcode: barcode.value, // Accessing barcode value
+                        Category: category.value, // Accessing category value
+                        Cost: cost.value, // Accessing cost value
+                        Price: price.value, // Accessing price value
+                        TaxMethod: taxMethod.value, // Accessing taxMethod value
+                        Quantity: quantity.value // Accessing quantity value
+                    })
+                    .then(() => {
+                        alert("Data added successfully");
+                    })
+                    .catch((error) => {
+                        alert(error);
+                    });
+                } else {
+                    alert("Please sign in to add transactions.");
+                }
             }
-        }
-    
-        addproduct.addEventListener('click', () => InsertData("code"));
+
+            addproduct.addEventListener('click', InsertData); // Removing "code" argument from the function call
   
 
       </script>
