@@ -15,10 +15,10 @@
       <link rel="stylesheet" href="/assets/vendor/remixicon/fonts/remixicon.css">  </head>
       <body class="  ">
         <!-- loader Start -->
-        <div id="loading">
+        <!-- <div id="loading">
               <div id="loading-center">
               </div>
-        </div>
+        </div> -->
         <!-- Wrapper Start -->
         <div class="wrapper">
           <div class="iq-sidebar  sidebar-default ">
@@ -518,7 +518,8 @@
                   </div>
               </div>
           </div>
-      </div>      <div class="content-page">
+      </div>      
+    <div class="content-page">
      <div class="container-fluid add-form-list">
         <div class="row">
             <div class="col-sm-12">
@@ -529,12 +530,13 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="page-list-product.html" data-toggle="validator">
+                        <!-- action="page-list-product.html" -->
+                        <form data-toggle="validator">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Product Type *</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
+                                        <select name="type" id="productType" class="selectpicker form-control" data-style="py-0">
                                             <option>Standard</option>
                                             <option>Combo</option>
                                             <option>Digital</option>
@@ -545,21 +547,21 @@
                                 <div class="col-md-6">                      
                                     <div class="form-group">
                                         <label>Name *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Name" data-errors="Please Enter Name." required>
+                                        <input type="text" class="form-control" placeholder="Enter Name" data-errors="Please Enter Name." id="name" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>    
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Code *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Code" data-errors="Please Enter Code." required>
+                                        <input type="text" class="form-control" placeholder="Enter Code" data-errors="Please Enter Code." id="code" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div> 
                                 <div class="col-md-6"> 
                                     <div class="form-group">
                                         <label>Barcode Symbology *</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
+                                        <select name="type" class="selectpicker form-control" id="barcode" data-style="py-0">
                                             <option>CREM01</option>
                                             <option>UM01</option>
                                             <option>SEM01</option>
@@ -573,7 +575,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Category *</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
+                                        <select name="type" class="selectpicker form-control" id="category" data-style="py-0">
                                             <option>Beauty</option>
                                             <option>Grocery</option>
                                             <option>Food</option>
@@ -587,21 +589,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Cost *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Cost" data-errors="Please Enter Cost." required>
+                                        <input type="text" class="form-control" placeholder="Enter Cost" data-errors="Please Enter Cost." id="cost" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Price *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Price" data-errors="Please Enter Price." required>
+                                        <input type="text" class="form-control" placeholder="Enter Price" data-errors="Please Enter Price." id="price" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Tax Method *</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
+                                        <select name="type" id="tax"class="selectpicker form-control" data-style="py-0">
                                             <option>Exclusive</option>
                                             <option>Inclusive</option>
                                         </select>
@@ -610,33 +612,33 @@
                                 <div class="col-md-12">                                    
                                     <div class="form-group">
                                         <label>Quantity *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Quantity" required>
+                                        <input type="text" id="quantity" class="form-control" placeholder="Enter Quantity" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Image</label>
-                                        <input type="file" class="form-control image-file" name="pic" accept="image/*">
+                                        <input type="file" id="image" class="form-control image-file" name="pic" accept="image/*">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Description / Product Details</label>
-                                        <textarea class="form-control" rows="4"></textarea>
+                                        <textarea id="description" class="form-control" rows="4"></textarea>
                                     </div>
                                 </div>
                             </div>                            
-                            <button type="submit" class="btn btn-primary mr-2">Add Product</button>
+                            <button id="submit" class="btn btn-primary mr-2">Add Product</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
         <!-- Page end  -->
-    </div>
-      </div>
+        </div>
+     </div>
     </div>
     <!-- Wrapper End-->
     <footer class="iq-footer">
@@ -658,6 +660,123 @@
             </div>
         </div>
     </footer>
+
+    <script type="module">
+        // Firebase initialization
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+    
+        const code = document.getElementById("code");
+        const code = document.getElementById("code");
+        const code = document.getElementById("code");
+        const code = document.getElementById("code");
+        const code = document.getElementById("code");
+        const code = document.getElementById("code");
+        const code = document.getElementById("code");
+        
+        let grandTotal = 0;
+        let currentUser = null;
+    
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                // User is signed out
+            }
+        });
+    
+    
+        let lastClickTime = 0;
+    
+        function InsertData(code) {
+            const currentTime = Date.now();
+            if (currentTime - lastClickTime < 1000) {
+                // Ignore multiple clicks within 1 second
+                return;
+            }
+            lastClickTime = currentTime;
+    
+            const timestamp = Date.now(); // Get the current timestamp in milliseconds
+            const date = new Date(timestamp);
+            const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+            const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    
+            if (currentUser) {
+                const userRef = doc(db, "Data", currentUser.uid);
+                const productRef = collection(userRef, "products");
+                const productcodeRef = doc(productRef, code);
+                // const formattedDateRef = collection(transactionTypeRef, formattedDate);
+                // const formattedTimeRef = doc(formattedDateRef, formattedTime);
+    
+                setDoc(productcodeRef, {
+                    Date: formattedDate,
+                    Time: formattedTime,
+                    Code: code,
+                    Name: 
+                })
+                .then(() => {
+                    alert("Data added successfully");
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+            } else {
+                alert("Please sign in to add transactions.");
+            }
+        }
+    
+        cashInButton.addEventListener('click', () => InsertData("Cashin"));
+        cashOutButton.addEventListener('click', () => InsertData("Cashout"));
+
+      </script>
+
+     <script>
+        let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+        let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+    
+        let GreetHead = document.getElementById('GreetMsg')
+        let SignoutButton = document.getElementById('SignOutbtn')
+    
+        
+        let Signout = () => {
+            sessionStorage.removeItem("user-creds");
+            sessionStorage.removeItem("user-info");
+            window.location.href = "./login.html"
+        } 
+    
+        let checkCred = () =>{
+            if(!sessionStorage.getItem("user-creds")){
+                window.location.href = "./auth-sign-in.html"
+            }
+            
+            else{
+                // MsgHead.innerText = `user with email ${userCreds.email} and mobile number ${userInfo.mobilenumber}`
+                GreetHead.innerText = `  ${userInfo.firstname}  ${userInfo.lastname}! `
+            }
+        }
+    
+        window.addEventListener('load',checkCred);
+        SignoutButton.addEventListener('click',Signout);
+        </script>
+    
+    
     <script src="/assets/js/firebaseconfig.js"></script>
     <!-- Backend Bundle JavaScript -->
     <script src="/assets/js/backend-bundle.min.js"></script>
