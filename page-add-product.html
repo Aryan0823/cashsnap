@@ -519,155 +519,63 @@
               </div>
           </div>
       </div>      
-    <div class="content-page">
-     <div class="container-fluid add-form-list">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <div class="header-title">
-                            <h4 class="card-title">Add Product</h4>
+      <div class="content-page">
+        <div class="container-fluid add-form-list">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Add Product</h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <!-- action="page-list-product.html" -->
-                        <form data-toggle="validator">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Product Type *</label>
-                                        <select name="type" id="productType" class="selectpicker form-control" data-style="py-0">
-                                            <option>Standard</option>
-                                            <option>Combo</option>
-                                            <option>Digital</option>
-                                            <option>Service</option>
-                                        </select>
-                                    </div> 
-                                </div>  
-                                <div class="col-md-6">                      
-                                    <div class="form-group">
-                                        <label>Name *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Name" data-errors="Please Enter Name." id="name" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>    
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Code *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Code" data-errors="Please Enter Code." id="code" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div> 
-                                <div class="col-md-6"> 
-                                    <div class="form-group">
-                                        <label>Barcode Symbology *</label>
-                                        <select name="type" class="selectpicker form-control" id="barcode" data-style="py-0">
-                                            <option>CREM01</option>
-                                            <option>UM01</option>
-                                            <option>SEM01</option>
-                                            <option>COF01</option>
-                                            <option>FUN01</option>
-                                            <option>DIS01</option>
-                                            <option>NIS01</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Category *</label>
-                                        <select name="type" class="selectpicker form-control" id="category" data-style="py-0">
-                                            <option>Beauty</option>
-                                            <option>Grocery</option>
-                                            <option>Food</option>
-                                            <option>Furniture</option>
-                                            <option>Shoes</option>
-                                            <option>Frames</option>
-                                            <option>Jewellery</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Cost *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Cost" data-errors="Please Enter Cost." id="cost" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Price *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Price" data-errors="Please Enter Price." id="price" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Tax Method *</label>
-                                        <select name="type" id="tax"class="selectpicker form-control" data-style="py-0">
-                                            <option>Exclusive</option>
-                                            <option>Inclusive</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">                                    
-                                    <div class="form-group">
-                                        <label>Quantity *</label>
-                                        <input type="text" id="quantity" class="form-control" placeholder="Enter Quantity" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Image</label>
-                                        <input type="file" id="image" class="form-control image-file" name="pic" accept="image/*">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Description / Product Details</label>
-                                        <textarea id="description" class="form-control" rows="4"></textarea>
-                                    </div>
-                                </div>
-                            </div>                            
-                            <button id="submit" class="btn btn-primary mr-2">Add Product</button>
-                            <button type="reset" class="btn btn-danger">Reset</button>
-                        </form>
+                        <div class="card-body">
+                            <form id="productForm">
+                                <label for="name">Name:</label><br>
+                                <input type="text" id="name" name="name"><br>
+                    
+                                <label for="code">Code:</label><br>
+                                <input type="text" id="code" name="code"><br>
+                    
+                                <label for="productType">Product Type:</label><br>
+                                <input type="text" id="productType" name="productType"><br>
+                    
+                                <label for="barcode">Barcode:</label><br>
+                                <input type="text" id="barcode" name="barcode"><br>
+                    
+                                <label for="category">Category:</label><br>
+                                <input type="text" id="category" name="category"><br>
+                    
+                                <label for="cost">Cost:</label><br>
+                                <input type="number" id="cost" name="cost"><br>
+                    
+                                <label for="price">Price:</label><br>
+                                <input type="number" id="price" name="price"><br>
+                    
+                                <label for="tax">Tax Method:</label><br>
+                                <select id="tax" name="tax">
+                                    <option value="inclusive">Inclusive</option>
+                                    <option value="exclusive">Exclusive</option>
+                                </select><br>
+                    
+                                <label for="quantity">Quantity:</label><br>
+                                <input type="number" id="quantity" name="quantity"><br>
+                    
+                                <input type="submit" value="Add Product">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-        <!-- Page end  -->
         </div>
-     </div>
     </div>
-    <!-- Wrapper End-->
-    <footer class="iq-footer">
-            <div class="container-fluid">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-inline mb-0">
-                                <li class="list-inline-item"><a href="/privacy-policy.html">Privacy Policy</a></li>
-                                <li class="list-inline-item"><a href="/terms-of-service.html">Terms of Use</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6 text-right">
-                            <span class="mr-1"><script>document.write(new Date().getFullYear())</script>©</span> <a href="#" class="">Cashsnap</a>.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script type="module">
         // Firebase initialization
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    
+
         const firebaseConfig = {
             apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
             authDomain: "cashsnap-9a185.firebaseapp.com",
@@ -677,87 +585,77 @@
             appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
             measurementId: "G-5M366WH052"
         };
-    
+
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const db = getFirestore(app);
         const auth = getAuth(app);
-    
-        const name = document.getElementById("name");
-        const code = document.getElementById("code");
-        const productType = document.getElementById("productType");
-        const barcode = document.getElementById("barcode");
-        const category = document.getElementById("category");
-        const cost = document.getElementById("cost");
-        const price = document.getElementById("price");
-        const taxMethod = document.getElementById("tax");
-        const quantity = document.getElementById("code");
-        const image = document.getElementById("image");
-        const description = document.getElementById("description");
-        const addproduct = document.getElementById("submit");
 
-        let grandTotal = 0;
         let currentUser = null;
-    
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
             } else {
-                // User is signed out
+                alert("Please sign in to add products.");
             }
         });
-    
-    
-        let lastClickTime = 0;
-    
-        function InsertData() {
-                const currentTime = Date.now();
-                if (currentTime - lastClickTime < 1000) {
-                    // Ignore multiple clicks within 1 second
-                    return;
-                }
-                lastClickTime = currentTime;
 
-                const timestamp = Date.now(); // Get the current timestamp in milliseconds
-                const date = new Date(timestamp);
-                const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-                const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-
-                if (currentUser) {
-                    const userRef = doc(db, "Data", currentUser.uid);
-                    const productRef = collection(userRef, "products");
-                    const productcodeRef = doc(productRef, code.value); // Accessing code value
-
-                    setDoc(productcodeRef, {
-                        Date: formattedDate,
-                        Time: formattedTime,
-                        Code: code.value, // Accessing code value
-                        Name: name.value, // Accessing name value
-                        ProductType: productType.value, // Accessing productType value
-                        Barcode: barcode.value, // Accessing barcode value
-                        Category: category.value, // Accessing category value
-                        Cost: cost.value, // Accessing cost value
-                        Price: price.value, // Accessing price value
-                        TaxMethod: taxMethod.value, // Accessing taxMethod value
-                        Quantity: quantity.value // Accessing quantity value
-                    })
-                    .then(() => {
-                        alert("Data added successfully");
-                    })
-                    .catch((error) => {
-                        alert(error);
-                    });
-                } else {
-                    alert("Please sign in to add transactions.");
-                }
+        async function addProduct(name, code, productType, barcode, category, cost, price, tax, quantity) {
+            if (!currentUser) {
+                alert("Please sign in to add products.");
+                return;
             }
 
-            addproduct.addEventListener('click', InsertData); // Removing "code" argument from the function call
-  
+            try {
+                const userDocRef = doc(db, "Data", currentUser.uid);
+                const productRef = collection(userDocRef, "products");
+                const productDoc = await addDoc(productRef, {
+                    Date: new Date().toLocaleDateString(),
+                    Time: new Date().toLocaleTimeString(),
+                    Code: code,
+                    "Product Type": productType,
+                    Name: name,
+                    "Barcode Symbology": barcode,
+                    Category: category,
+                    Cost: cost,
+                    Price: price,
+                    "Tax Method": tax,
+                    Quantity: quantity
+                });
+                alert("Product added successfully with ID: " + productDoc.id);
+            } catch (error) {
+                console.error("Error adding product:", error);
+                alert("Failed to add product. Please try again.");
+            }
+        }
 
-      </script>
+        const productForm = document.getElementById("productForm");
+        productForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const nameInput = document.getElementById("name");
+            const codeInput = document.getElementById("code");
+            const productTypeInput = document.getElementById("productType");
+            const barcodeInput = document.getElementById("barcode");
+            const categoryInput = document.getElementById("category");
+            const costInput = document.getElementById("cost");
+            const priceInput = document.getElementById("price");
+            const taxSelect = document.getElementById("tax");
+            const quantityInput = document.getElementById("quantity");
 
-     <script>
+            await addProduct(
+                nameInput.value, 
+                codeInput.value, 
+                productTypeInput.value, 
+                barcodeInput.value, 
+                categoryInput.value, 
+                costInput.value, 
+                priceInput.value, 
+                taxSelect.value, 
+                quantityInput.value
+            );
+        });
+    </script>
+    <script>
         let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
         let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
     
