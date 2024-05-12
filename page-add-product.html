@@ -550,56 +550,95 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form id="productForm">
-                                    <label for="name">Name:</label>
-                                    <br>
-                                    <input type="text" id="name" name="name">
-                                    <br>
+                                <form id="productForm" data-toggle="validator">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="productType">Product Type *</label>
+                                                <select id="productType" name="productType" class="selectpicker form-control" data-style="py-0">
+                                                    <option value="Standard">Standard</option>
+                                                    <option value="Combo">Combo</option>
+                                                    <option value="Digital">Digital</option>
+                                                    <option value="Service">Service</option>
+                                                </select>
+                                            </div> 
+                                        </div>  
+                                            <div class="col-md-6">                      
+                                                <div class="form-group">
+                                                    <label for="name">Name *</label>
+                                                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" data-errors="Please Enter Name." required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div> 
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="code">Code *</label>
+                                                    <input type="text" id="code" name="code" class="form-control" placeholder="Enter Code" data-errors="Please Enter Code." required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6"> 
+                                                <div class="form-group">
+                                                    <label for="barcode">Barcode Symbology *</label>
+                                                    <select id="barcode" name="barcode" class="selectpicker form-control" data-style="py-0">
+                                                        <option value="CRM01">CREM01</option>
+                                                        <option value="UM01">UM01</option>
+                                                        <option value="SEM01">SEM01</option>
+                                                        <option value="COF01">COF01</option>
+                                                        <option value="FUN01">FUN01</option>
+                                                        <option value="DIS01">DIS01</option>
+                                                        <option value="NIS01">NIS01</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="category">Category *</label>
+                                                    <select id="category" name="category" class="selectpicker form-control" data-style="py-0">
+                                                        <option value="Beauty">Beauty</option>
+                                                        <option value="Grocery">Grocery</option>
+                                                        <option value="Food">Food</option>
+                                                        <option value="Furniture">Furniture</option>
+                                                        <option value="Shoes">Shoes</option>
+                                                        <option value="Frames">Frames</option>
+                                                        <option value="Jewellery">Jewellery</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="cost">Cost *</label>
+                                                    <input type="number" id="cost" name="cost" class="form-control" placeholder="Enter Cost" data-errors="Please Enter Cost." required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="price">Price *</label>
+                                                    <input type="number" id="price" name="price" class="form-control" placeholder="Enter Price" data-errors="Please Enter Price." required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="tax">Tax Method *</label>
+                                                    <select id="tax" name="tax" class="selectpicker form-control" data-style="py-0">
+                                                        <option value="Inclusive">Inclusive</option>
+                                                        <option value="Exclusive">Exclusive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">                                    
+                                                <div class="form-group">
+                                                    <label for="quantity">Quantity *</label>
+                                                    <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter Quantity" required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
 
-                                    <label for="code">Code:</label>
-                                    <br>
-                                    <input type="text" id="code" name="code">
-                                    <br>
-
-                                    <label for="productType">Product Type:</label>
-                                    <br>
-                                    <input type="text" id="productType" name="productType">
-                                    <br>
-
-                                    <label for="barcode">Barcode:</label>
-                                    <br>
-                                    <input type="text" id="barcode" name="barcode">
-                                    <br>
-
-                                    <label for="category">Category:</label>
-                                    <br>
-                                    <input type="text" id="category" name="category">
-                                    <br>
-
-                                    <label for="cost">Cost:</label>
-                                    <br>
-                                    <input type="number" id="cost" name="cost">
-                                    <br>
-
-                                    <label for="price">Price:</label>
-                                    <br>
-                                    <input type="number" id="price" name="price">
-                                    <br>
-
-                                    <label for="tax">Tax Method:</label>
-                                    <br>
-                                    <select id="tax" name="tax">
-                                        <option value="inclusive">Inclusive</option>
-                                        <option value="exclusive">Exclusive</option>
-                                    </select>
-                                    <br>
-
-                                    <label for="quantity">Quantity:</label>
-                                    <br>
-                                    <input type="number" id="quantity" name="quantity">
-                                    <br>
-
-                                    <input type="submit" value="Add Product">
+                                            <button type="submit" class="btn btn-primary mr-2">Add Product</button>
+                                            <button type="reset" class="btn btn-danger">Reset</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Product Management</title>
 </head>
 <body>
     <div class="content-page">
@@ -13,7 +13,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Add Product</h4>
+                                <h4 class="card-title">Product Management</h4>
                             </div>
                         </div>
                         <div class="card-body">
@@ -48,7 +48,10 @@
                                 <label for="quantity">Quantity:</label><br>
                                 <input type="number" id="quantity" name="quantity"><br>
                     
-                                <input type="submit" value="Add Product">
+                                <button type="button" id="insertBtn">Insert</button>
+                                <button type="button" id="deleteBtn">Delete</button>
+                                <button type="button" id="updateBtn">Update</button>
+                                <button type="button" id="selectBtn">Select</button>
                             </form>
                         </div>
                     </div>
@@ -60,7 +63,7 @@
     <script type="module">
         // Firebase initialization
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs, deleteDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -82,13 +85,13 @@
             if (user) {
                 currentUser = user;
             } else {
-                alert("Please sign in to add products.");
+                alert("Please sign in to manage products.");
             }
         });
 
         async function addProduct(name, code, productType, barcode, category, cost, price, tax, quantity) {
             if (!currentUser) {
-                alert("Please sign in to add products.");
+                alert("Please sign in to manage products.");
                 return;
             }
 
@@ -123,6 +126,89 @@
             }
         }
 
+        async function deleteProduct(code) {
+            if (!currentUser) {
+                alert("Please sign in to manage products.");
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(collection(db, "Data", currentUser.uid, "products"), code));
+                alert("Product deleted successfully with ID: " + code);
+            } catch (error) {
+                console.error("Error deleting product:", error);
+                alert("Failed to delete product. Please try again.");
+            }
+        }
+
+        async function updateProduct() {
+            if (!currentUser) {
+                alert("Please sign in to manage products.");
+                return;
+            }
+
+            try {
+                const code = document.getElementById("code").value;
+                if (!code) {
+                    alert("Please enter product code to update.");
+                    return;
+                }
+
+                const newName = document.getElementById("name").value;
+                const productType = document.getElementById("productType").value;
+                const barcode = document.getElementById("barcode").value;
+                const category = document.getElementById("category").value;
+                const cost = document.getElementById("cost").value;
+                const price = document.getElementById("price").value;
+                const tax = document.getElementById("tax").value;
+                const quantity = document.getElementById("quantity").value;
+
+                const productRef = doc(collection(db, "Data", currentUser.uid, "products"), code);
+                const updateData = {
+                    "Product Type": productType,
+                    Name: newName,
+                    Barcode: barcode,
+                    Category: category,
+                    Cost: cost,
+                    Price: price,
+                    "Tax Method": tax,
+                    Quantity: quantity
+                };
+
+                // Filter out empty fields
+                for (const key in updateData) {
+                    if (updateData[key] === "") {
+                        delete updateData[key];
+                    }
+                }
+
+                await updateDoc(productRef, updateData);
+                alert("Product updated successfully with ID: " + code);
+            } catch (error) {
+                console.error("Error updating product:", error);
+                alert("Failed to update product. Please try again.");
+            }
+        }
+
+        async function selectProduct(code) {
+            if (!currentUser) {
+                alert("Please sign in to manage products.");
+                return;
+            }
+
+            try {
+                const docSnap = await getDoc(doc(collection(db, "Data", currentUser.uid, "products"), code));
+                if (docSnap.exists()) {
+                    console.log("Product:", docSnap.data());
+                } else {
+                    console.log("No such document!");
+                }
+            } catch (error) {
+                console.error("Error getting document:", error);
+                alert("Failed to retrieve product details. Please try again.");
+            }
+        }
+
         const productForm = document.getElementById("productForm");
         productForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -147,6 +233,36 @@
                 taxSelect.value, 
                 quantityInput.value
             );
+        });
+
+        const insertBtn = document.getElementById("insertBtn");
+        insertBtn.addEventListener('click', () => {
+            productForm.dispatchEvent(new Event('submit'));
+        });
+
+        const deleteBtn = document.getElementById("deleteBtn");
+        deleteBtn.addEventListener('click', async () => {
+            const code = document.getElementById("code").value;
+            if (code) {
+                await deleteProduct(code);
+            } else {
+                alert("Please enter product code to delete.");
+            }
+        });
+
+        const updateBtn = document.getElementById("updateBtn");
+        updateBtn.addEventListener('click', async () => {
+            await updateProduct();
+        });
+
+        const selectBtn = document.getElementById("selectBtn");
+        selectBtn.addEventListener('click', async () => {
+            const code = document.getElementById("code").value;
+            if (code) {
+                await selectProduct(code);
+            } else {
+                alert("Please enter product code to select.");
+            }
         });
     </script>
 </body>
