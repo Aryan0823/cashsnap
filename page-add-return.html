@@ -548,29 +548,22 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="page-list-returns.html" data-toggle="validator">
+                        <form id="returnForm">
                             <div class="row">                                  
                                 <div class="col-md-6">                      
                                     <div class="form-group">
-                                        <label>Date *</label>
-                                        <input type="text" class="form-control">
+                                        <label for="name">Purchase Date *</label>
+                                        <input type="text" class="form-control" placeholder="Purchase Date">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Reference No *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Reference No" required>
+                                        <label>Product Code *</label>
+                                        <input type="text" class="form-control" placeholder="Enter Product Code" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div> 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Biller *</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
-                                            <option>Test Biller</option>
-                                        </select>
-                                    </div> 
-                                </div>  
+                            
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Customer *</label>
@@ -578,6 +571,13 @@
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>   
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Customer Phone number *</label>
+                                        <input type="text" class="form-control" placeholder="Enter Phone number" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div> 
                                 <div class="col-md-6"> 
                                     <div class="form-group">
                                         <label>Order Tax *</label>
@@ -594,12 +594,6 @@
                                         <input type="text" class="form-control" placeholder="Discount">
                                     </div>
                                 </div> 
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Shipping</label>
-                                        <input type="text" class="form-control" placeholder="Shipping">
-                                    </div>
-                                </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Attach Document</label>

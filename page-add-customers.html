@@ -674,9 +674,9 @@
                        }
        
                        const userDocRef = doc(db, "Data", currentUser.uid);
-                       const csutomersRef = collection(userDocRef, "customers");
+                       const customersRef = collection(userDocRef, "customers");
                        const customersId = phonenumber; // Use phonenumber as customersId
-                       await setDoc(doc(csutomersRef, customersId), {
+                       await setDoc(doc(customersRef, customersId), {
                            Date: new Date().toLocaleDateString(),
                            Time: new Date().toLocaleTimeString(),
                            Name: name,

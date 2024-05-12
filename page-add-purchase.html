@@ -548,36 +548,30 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="page-list-purchase.html" data-toggle="validator">
+                        <form id="productForm">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="dob">Date *</label>
-                                        <input type="date" class="form-control" id="dob" name="dob" />
-                                    </div>
-                                </div>  
                                 <div class="col-md-6">                      
                                     <div class="form-group">
-                                        <label>Purchase No *</label>
-                                        <input type="text" class="form-control" placeholder="Purchase No" required>
+                                        <label for="purchaseno">Purchase No *</label>
+                                        <input type="number" id="purchaseno" name="purchaseno" class="form-control" placeholder="Purchase No" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>    
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Supplier</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
-                                            <option>Select Supplier</option>
-                                            <option>Test Supplier</option>
+                                        <label for="supplier">Supplier</label>
+                                        <select id="supplier" name="supplier" class="selectpicker form-control" data-style="py-0">
+                                            <option value="SelectSupplier">Select Supplier</option>
+                                            <option value="TestSupplier">Test Supplier</option>
                                         </select>
                                     </div>
                                 </div> 
                                 <div class="col-md-6"> 
                                     <div class="form-group">
-                                        <label>Received</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
-                                            <option>Received</option>
-                                            <option>Not received yet</option>
+                                        <label for="received">Received</label>
+                                        <select  id="received" name="received" class="selectpicker form-control" data-style="py-0">
+                                            <option value="SelectSupplier">Received</option>
+                                            <option value="SelectSupplier">Not received yet</option>
                                         </select>
                                     </div>
                                 </div> 

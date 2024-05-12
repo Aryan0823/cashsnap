@@ -548,60 +548,60 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="page-list-suppliers.html" data-toggle="validator">
+                        <form id="supplierForm">
                             <div class="row"> 
                                 <div class="col-md-6">                      
                                     <div class="form-group">
-                                        <label>Name *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Name" required>
+                                        <label for="name">Name *</label>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>    
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Email *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Email" required>
+                                        <label for="email">Email *</label>
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div> 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Phone Number *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Phone Number" required>
+                                        <label for="phonenumber">Phone Number *</label>
+                                        <input type="number" id="phonenumber" name="phonenumber" class="form-control" placeholder="Enter Phone Number" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div> 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>GST Number *</label>
-                                        <input type="text" class="form-control" placeholder="Enter GST Number" required>
+                                        <label for="gst">GST Number *</label>
+                                        <input type="text" id="gst" name="gst" class="form-control" placeholder="Enter GST Number" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Address</label>
-                                        <textarea class="form-control" rows="4"></textarea>
+                                        <label for="address">Address</label>
+                                        <textarea type="text" id="address" name="address" class="form-control" rows="4"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>City *</label>
-                                        <input type="text" class="form-control" placeholder="Enter City" required>
+                                        <label for="city">City *</label>
+                                        <input type="text" id="city" name="city" type="text" class="form-control" placeholder="Enter City" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div> 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>State *</label>
-                                        <input type="text" class="form-control" placeholder="Enter State" required>
+                                        <label for="state">State *</label>
+                                        <input type="text" id="state" name="state" class="form-control" placeholder="Enter State" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Country *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Country" required>
+                                        <label for="country">Country *</label>
+                                        <input type="text" id="country" name="country" class="form-control" placeholder="Enter Country" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -637,6 +637,124 @@
             </div>
         </div>
     </footer>
+    <script type="module">
+        // Firebase initialization
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                alert("Please sign in to add suppliers.");
+            }
+        });
+
+        async function addsupplier(name, email, phonenumber, gst, country, address, city, state) {
+            if (!currentUser) {
+                alert("Please sign in to add suppliers.");
+                return;
+            }
+
+            try {
+                // Check if the code is unique
+                const supplierQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "customer"), where("phonenumber", "==", phonenumber)));
+                if (!supplierQuerySnapshot.empty) {
+                    alert("Supplier with the same Phone Number already exists.");
+                    return;
+                }
+
+                const userDocRef = doc(db, "Data", currentUser.uid);
+                const suppliersRef = collection(userDocRef, "suppliers");
+                const suppliersId = phonenumber; // Use phonenumber as suppliersId
+                await setDoc(doc(suppliersRef, suppliersId), {
+                    Date: new Date().toLocaleDateString(),
+                    Time: new Date().toLocaleTimeString(),
+                    Name: name,
+                    Email: email,
+                    Gst: gst,
+                    Phoneno: phonenumber,
+                    Country: country,
+                    Address: address,
+                    City: city,
+                    State: state
+                });
+                alert("Supplier added successfully with Phone number: " + phonenumber);
+            } catch (error) {
+                console.error("Error adding product:", error);
+                alert("Failed to add product. Please try again.");
+            }
+        }
+
+        const supplierForm = document.getElementById("supplierForm");
+        supplierForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const nameInput = document.getElementById("name");
+            const emailInput = document.getElementById("email");
+            const phonenumberInput = document.getElementById("phonenumber");
+            const gstInput = document.getElementById("gst");
+            const countryInput = document.getElementById("country");
+            const addressInput = document.getElementById("address");
+            const cityInput = document.getElementById("city");
+            const stateInput = document.getElementById("state");
+            
+
+            await addsupplier(
+                nameInput.value, 
+                emailInput.value, 
+                phonenumberInput.value,
+                gstInput.value,
+                countryInput.value, 
+                addressInput.value, 
+                cityInput.value, 
+                stateInput.value 
+            );
+        });
+    </script>
+    <script>
+        let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+        let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+        let GreetHead = document.getElementById('GreetMsg')
+        let SignoutButton = document.getElementById('SignOutbtn')
+
+        
+        let Signout = () => {
+            sessionStorage.removeItem("user-creds");
+            sessionStorage.removeItem("user-info");
+            window.location.href = "./login.html"
+        } 
+
+        let checkCred = () =>{
+            if(!sessionStorage.getItem("user-creds")){
+                window.location.href = "./auth-sign-in.html"
+            }
+            
+            else{
+                // MsgHead.innerText = `user with email ${userCreds.email} and mobile number ${userInfo.mobilenumber}`
+                GreetHead.innerText = `  ${userInfo.firstname}  ${userInfo.lastname}! `
+            }
+        }
+
+        window.addEventListener('load',checkCred);
+        SignoutButton.addEventListener('click',Signout);
+    </script>
     <script src="/assets/js/firebaseconfig.js"></script>
     <!-- Backend Bundle JavaScript -->
     <script src="/assets/js/backend-bundle.min.js"></script>
