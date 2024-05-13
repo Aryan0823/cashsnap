@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Add Users | Cashsnap</title>
+      <title>Add Employee | Cashsnap</title>
       
       <!-- Favicon -->
       <link rel="shortcut icon" href="/assets/images/favicon.ico" />
@@ -170,13 +170,13 @@
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="/page-list-users.html">
-                                        <i class="las la-minus"></i><span>Users</span>
+                                    <a href="/page-list-employee.html">
+                                        <i class="las la-minus"></i><span>Employee</span>
                                     </a>
                                 </li>
                                 <li class="active">
-                                    <a href="/page-add-users.html">
-                                        <i class="las la-minus"></i><span>Add Users</span>
+                                    <a href="/page-add-employee.html">
+                                        <i class="las la-minus"></i><span>Add Employee</span>
                                     </a>
                                 </li>
                                 <li class="">
@@ -483,15 +483,22 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Add Users</h4>
+                            <h4 class="card-title">Add Employee</h4>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="page-list-users.html" data-toggle="validator">
+                        <form action="page-list-employee.html" data-toggle="validator">
                             <div class="row"> 
-                                <div class="col-md-6">                      
+                                <div class="col-md-12">                      
                                     <div class="form-group">
                                         <label>Name *</label>
+                                        <input type="text" class="form-control" placeholder="Enter Name" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>   
+                                <div class="col-md-6">                      
+                                    <div class="form-group">
+                                        <label>Employee ID *</label>
                                         <input type="text" class="form-control" placeholder="Enter Name" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
