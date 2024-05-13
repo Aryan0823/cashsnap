@@ -492,13 +492,13 @@
                                 <div class="col-md-12">                      
                                     <div class="form-group">
                                         <label for="returnid">Return ID *</label>
-                                        <input type="text" id="returnid" name="returnid" class="form-control" placeholder="Return ID">
+                                        <input type="text" id="returnid" name="returnid" class="form-control" placeholder="Return ID" required>
                                     </div>
                                 </div>                                
                                 <div class="col-md-6">                      
                                     <div class="form-group">
                                         <label for="purchasedate">Purchase Date *</label>
-                                        <input type="text" id="purchasedate" name="purchasedate" class="form-control" placeholder="Purchase Date">
+                                        <input type="date" id="purchasedate" name="purchasedate" class="form-control" placeholder="Purchase Date" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -540,11 +540,7 @@
                                     </div>
                                 </div> 
                                 <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="attach">Attach Document</label>
-                                        <input type="file" id="attach" name="attach" class="form-control image-file" name="pic" accept="image/*">
-                                    </div>
-                                </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="returnnote">Return Note *</label>
@@ -588,7 +584,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+    
         const firebaseConfig = {
             apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
             authDomain: "cashsnap-9a185.firebaseapp.com",
@@ -601,9 +597,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-
+    
         let currentUser = null;
-
+    
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
@@ -611,13 +607,13 @@
                 alert("Please sign in to add returns.");
             }
         });
-
-        async function addreturn(returnid, purchasedate, phonenumber, productcode, customer, ordertax, orderdiscount, returnnote) {
+    
+        async function addreturn(returnid, purchasedate, productcode, customer, phonenumber, ordertax, orderdiscount, returnnote) {
             if (!currentUser) {
                 alert("Please sign in to add returns.");
                 return;
             }
-
+    
             try {
                 // Check if the code is unique
                 const returnQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "return"), where("returnid", "==", returnid)));
@@ -625,10 +621,10 @@
                     alert("Return with the same returnid already exists.");
                     return;
                 }
-
+    
                 const userDocRef = doc(db, "Data", currentUser.uid);
                 const returnsRef = collection(userDocRef, "return");
-                const returnsId = phonenumber; // Use phonenumber as customersId
+                const returnsId = returnid; // Use phonenumber as customersId
                 await setDoc(doc(returnsRef, returnsId), {
                     Date: new Date().toLocaleDateString(),
                     Time: new Date().toLocaleTimeString(),
@@ -639,7 +635,7 @@
                     Phoneno: phonenumber,
                     Ordertax: ordertax,
                     OrderDiscount: orderdiscount,
-                    // Attach: attach,
+    
                     ReturnNote: returnnote,
                 });
                 alert("Return added successfully with ReturnID: " + returnid);
@@ -648,28 +644,26 @@
                 alert("Failed to add return. Please try again.");
             }
         }
-
+    
         const returnForm = document.getElementById("returnForm");
         returnForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const returnIDInput = document.getElementById("returnid");
+            const returnidInput = document.getElementById("returnid");
             const purchasedateInput = document.getElementById("purchasedate");
             const productcodeInput = document.getElementById("productcode");
             const customerInput = document.getElementById("customer");
             const phonenumberInput = document.getElementById("phonenumber");
             const ordertaxInput = document.getElementById("ordertax");
             const orderdiscountInput = document.getElementById("orderdiscount");
-            // const attachInput = document.getElementById("attach");
             const returnnoteInput = document.getElementById("returnnote");
-            await addcustomer(
-                returnIDInput.value, 
-                purchasedateInput.value, 
-                productcodeInput.value, 
-                customerInput.value, 
-                phonenumberInput.value, 
-                ordertaxInput.value, 
-                orderdiscountInput.value, 
-                // attachInput.value, 
+            await addreturn(
+                returnidInput.value,
+                purchasedateInput.value,
+                productcodeInput.value,
+                customerInput.value,
+                phonenumberInput.value,
+                ordertaxInput.value,
+                orderdiscountInput.value,
                 returnnoteInput.value
             );
         });
