@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Add Customers | Cashsnap</title>
+    <title>Add Employee | Cashsnap</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
     <link rel="stylesheet" href="/assets/css/backend-plugin.min.css">
@@ -28,108 +28,89 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Add Customer</h4>
+                                <h4 class="card-title">Add Employee</h4>
                             </div>
                         </div>
                         <div class="card-body">
-                            <form id="customerForm">
+                            <form id="employeeForm">
                                 <div class="row"> 
-                                    <div class="col-md-6">                      
+                                    <div class="col-md-12">                      
                                         <div class="form-group">
                                             <label for="name">Name *</label>
                                             <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
                                             <div class="help-block with-errors"></div>
                                         </div>
+                                    </div>   
+                                    <div class="col-md-6">                      
+                                        <div class="form-group">
+                                            <label for="employeeId">Employee ID *</label>
+                                            <input type="text" id="employeeId" name="employeeId" class="form-control" placeholder="Enter Employee ID" required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
                                     </div>    
                                     <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phonenumber">Phone Number *</label>
+                                            <input type="tel" id="phonenumber" name="phonenumber" class="form-control" placeholder="Enter Phone No" required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="email">Email *</label>
                                             <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div> 
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="phonenumber">Phone Number *</label>
-                                            <input type="number" id="phonenumber" name="phonenumber" class="form-control" placeholder="Enter Phone Number" required>
-                                            <div class="help-block with-errors"></div>
+                                            <label for="gender">Gender</label>
+                                            <select id="gender" name="gender" class="selectpicker form-control" data-style="py-0">
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
+                                            </select>
                                         </div>
                                     </div> 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="country">Country *</label>
-                                            <input type="text" id="country" name="country" class="form-control" placeholder="Enter Country" required>
-                                            <div class="help-block with-errors"></div>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="address">Address</label>
-                                            <textarea type="text" id="address" name="address" class="form-control" rows="4"></textarea>
+                                            <label for="status">Status *</label>
+                                            <select id="status" name="status" class="selectpicker form-control" data-style="py-0">
+                                                <option value="active">Active</option>
+                                                <option value="inactive">Inactive</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="city">City *</label>
-                                            <input type="text" id="city" name="city" class="form-control" placeholder="Enter City" required>
-                                            <div class="help-block with-errors"></div>
-                                        </div>
-                                    </div> 
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="state">State *</label>
-                                            <input type="text" id="state" name="state" class="form-control" placeholder="Enter State" required>
-                                            <div class="help-block with-errors"></div>
-                                        </div>
-                                    </div>
+                                                                 
                                 </div>                            
-                                <button type="submit" class="btn btn-primary mr-2">Add Customer</button>
-                                <button type="reset" class="btn btn-danger">Reset</button>    
+                                <button type="submit" class="btn btn-primary mr-2">Add Employee</button>
+                                <button type="reset" class="btn btn-danger">Reset</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Display Customer Data -->
-            <div class="row mt-4">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Customer List</h4>
-                        </div>
-                        <div class="card-body" id="customerList">
-                            <!-- Customer data will be displayed here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Page end  -->
         </div>
     </div>
 </div>
-<!-- Wrapper End-->
-<footer class="iq-footer">
-    <div class="container-fluid">
-        <!-- Your footer content -->
-    </div>
-</footer>
 
-<!-- Firebase and other scripts -->
+<!-- Firebase Initialization -->
 <script type="module">
-    // Firebase initialization
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-        };
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+        measurementId: "YOUR_MEASUREMENT_ID"
+    };
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
@@ -140,128 +121,105 @@
         if (user) {
             currentUser = user;
         } else {
-            alert("Please sign in to add customers.");
+            alert("Please sign in to add an employee.");
         }
     });
 
-    async function displayCustomers() {
-        try {
-            const customersRef = collection(db, "Data", currentUser.uid, "customers");
-            const querySnapshot = await getDocs(customersRef);
-            let customerListHTML = "";
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                customerListHTML += `<div><strong>Name:</strong> ${data.Name}, <strong>Email:</strong> ${data.Email}, <strong>Phone Number:</strong> ${data.Phoneno}</div>`;
-            });
-            document.getElementById("customerList").innerHTML = customerListHTML;
-        } catch (error) {
-            console.error("Error fetching customers:", error);
-        }
-    }
-
-    window.addEventListener('load', () => {
-        displayCustomers();
-    });
-
-    async function addcustomer(name, email, phonenumber, country, address, city, state) {
+    async function addEmployee(name, employeeId, phonenumber, email, gender, status) {
         if (!currentUser) {
-            alert("Please sign in to add customers.");
+            alert("Please sign in to add an employee.");
             return;
         }
 
         try {
-            // Check if the code is unique
-            const customerQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "customer"), where("phonenumber", "==", phonenumber)));
-            if (!customerQuerySnapshot.empty) {
-                alert("Customer with the same Phone Number already exists.");
+            // Check if the employee with the same ID already exists
+            const employeeQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "employee"), where("employeeId", "==", employeeId)));
+            if (!employeeQuerySnapshot.empty) {
+                alert("An employee with the same ID already exists.");
                 return;
             }
 
             const userDocRef = doc(db, "Data", currentUser.uid);
-            const csutomersRef = collection(userDocRef, "customers");
-            const customersId = phonenumber; // Use phonenumber as customersId
-            await setDoc(doc(csutomersRef, customersId), {
+            const employeeRef = collection(userDocRef, "employee");
+            await setDoc(doc(employeeRef, employeeId), {
                 Date: new Date().toLocaleDateString(),
                 Time: new Date().toLocaleTimeString(),
                 Name: name,
+                EmployeeId: employeeId,
+                Phonenumber: phonenumber,
                 Email: email,
-                Phoneno: phonenumber,
-                Country: country,
-                Address: address,
-                City: city,
-                State: state
+                Gender: gender,
+                Status: status
             });
-            alert("Customer added successfully with Phone number: " + phonenumber);
-            displayCustomers(); // Refresh customer list
+            alert("Employee added successfully with ID: " + employeeId);
         } catch (error) {
-            console.error("Error adding product:", error);
-            alert("Failed to add product. Please try again.");
+            console.error("Error adding employee:", error);
+            alert("Failed to add employee. Please try again.");
         }
     }
 
-    const customerForm = document.getElementById("customerForm");
-    customerForm.addEventListener('submit', async (event) => {
+    const employeeForm = document.getElementById("employeeForm");
+    employeeForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const nameInput = document.getElementById("name");
-        const emailInput = document.getElementById("email");
+        const employeeIdInput = document.getElementById("employeeId");
         const phonenumberInput = document.getElementById("phonenumber");
-        const countryInput = document.getElementById("country");
-        const addressInput = document.getElementById("address");
-        const cityInput = document.getElementById("city");
-        const stateInput = document.getElementById("state");
+        const emailInput = document.getElementById("email");
+        const genderInput = document.getElementById("gender");
+        const statusInput = document.getElementById("status");
 
-        await addcustomer(
+        await addEmployee(
             nameInput.value,
-            emailInput.value,
+            employeeIdInput.value,
             phonenumberInput.value,
-            countryInput.value,
-            addressInput.value,
-            cityInput.value,
-            stateInput.value
+            emailInput.value,
+            genderInput.value,
+            statusInput.value
         );
     });
 </script>
-<script>
-    let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
-    let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
-
-    let GreetHead = document.getElementById('GreetMsg')
-    let SignoutButton = document.getElementById('SignOutbtn')
-
-
-    let Signout = () => {
-        sessionStorage.removeItem("user-creds");
-        sessionStorage.removeItem("user-info");
-        window.location.href = "./login.html"
-    }
-
-    let checkCred = () => {
-        if (!sessionStorage.getItem("user-creds")) {
-            window.location.href = "./auth-sign-in.html"
-        }
-
-        else {
-            GreetHead.innerText = `  ${userInfo.firstname}  ${userInfo.lastname}! `
-        }
-    }
-
-    window.addEventListener('load', checkCred);
-    SignoutButton.addEventListener('click', Signout);
-</script>
-<script src="/assets/js/firebaseconfig.js"></script>
-<!-- Backend Bundle JavaScript -->
-<script src="/assets/js/backend-bundle.min.js"></script>
-
-<!-- Table Treeview JavaScript -->
-<script src="/assets/js/table-treeview.js"></script>
-
-<!-- Chart Custom JavaScript -->
-<script src="/assets/js/customizer.js"></script>
-
-<!-- Chart Custom JavaScript -->
-<script async src="/assets/js/chart-custom.js"></script>
-
-<!-- app JavaScript -->
-<script src="/assets/js/app.js"></script>
-</body>
-</html>
+       <script>
+           let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+           let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+   
+           let GreetHead = document.getElementById('GreetMsg')
+           let SignoutButton = document.getElementById('SignOutbtn')
+   
+           
+           let Signout = () => {
+               sessionStorage.removeItem("user-creds");
+               sessionStorage.removeItem("user-info");
+               window.location.href = "./login.html"
+           } 
+   
+           let checkCred = () =>{
+               if(!sessionStorage.getItem("user-creds")){
+                   window.location.href = "./auth-sign-in.html"
+               }
+               
+               else{
+                   // MsgHead.innerText = `user with email ${userCreds.email} and mobile number ${userInfo.mobilenumber}`
+                   GreetHead.innerText = `  ${userInfo.firstname}  ${userInfo.lastname}! `
+               }
+           }
+   
+           window.addEventListener('load',checkCred);
+           SignoutButton.addEventListener('click',Signout);
+       </script>
+           <script src="/assets/js/firebaseconfig.js"></script>
+           <!-- Backend Bundle JavaScript -->
+           <script src="/assets/js/backend-bundle.min.js"></script>
+           
+           <!-- Table Treeview JavaScript -->
+           <script src="/assets/js/table-treeview.js"></script>
+           
+           <!-- Chart Custom JavaScript -->
+           <script src="/assets/js/customizer.js"></script>
+           
+           <!-- Chart Custom JavaScript -->
+           <script async src="/assets/js/chart-custom.js"></script>
+           
+           <!-- app JavaScript -->
+           <script src="/assets/js/app.js"></script>
+         </body>
+       </html>
