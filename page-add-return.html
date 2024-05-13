@@ -104,68 +104,7 @@
                             </ul>
                         </li>
                         
-                        <li class=" ">
-                            <a href="#sale" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                                <svg class="svg-icon" id="p-dash4" width="20" height="20"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                                </svg>
-                                <span class="ml-4">Sales</span>
-                                <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <polyline points="10 15 15 20 20 15"></polyline>
-                                    <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                                </svg>
-                            </a>
-                            <ul id="sale" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                                <li class="">
-                                    <a href="/page-list-sale.html">
-                                        <i class="las la-minus"></i><span>List Sales</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="/page-add-sale.html">
-                                        <i class="las la-minus"></i><span>Add Sales</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class=" ">
-                            <a href="#purchase" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                                <svg class="svg-icon" id="p-dash5" width="20" height="20"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                    <line x1="1" y1="10" x2="23" y2="10"></line>
-                                </svg>
-                                <span class="ml-4">Purchases</span>
-                                <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <polyline points="10 15 15 20 20 15"></polyline>
-                                    <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                                </svg>
-                            </a>
-                            <ul id="purchase" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                                <li class="">
-                                    <a href="/page-list-purchase.html">
-                                        <i class="las la-minus"></i><span>List Purchases</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="/page-add-purchase.html">
-                                        <i class="las la-minus"></i><span>Add purchase</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        
                         <li class="active">
                             <a href="#return" class="collapsed" data-toggle="collapse" aria-expanded="false">
                                 <svg class="svg-icon" id="p-dash6" width="20" height="20"
@@ -549,69 +488,67 @@
                     </div>
                     <div class="card-body">
                         <form id="returnForm">
-                            <div class="row">                                  
+                            <div class="row">  
+                                <div class="col-md-12">                      
+                                    <div class="form-group">
+                                        <label for="returnid">Return ID *</label>
+                                        <input type="text" id="returnid" name="returnid" class="form-control" placeholder="Return ID">
+                                    </div>
+                                </div>                                
                                 <div class="col-md-6">                      
                                     <div class="form-group">
-                                        <label for="name">Purchase Date *</label>
-                                        <input type="text" class="form-control" placeholder="Purchase Date">
+                                        <label for="purchasedate">Purchase Date *</label>
+                                        <input type="text" id="purchasedate" name="purchasedate" class="form-control" placeholder="Purchase Date">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Product Code *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Product Code" required>
+                                        <label for="productcode">Product Code *</label>
+                                        <input type="text" id="productcode" name="productcode" class="form-control" placeholder="Enter Product Code" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div> 
                             
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Customer *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Customer Name" required>
+                                        <label for="customer">Customer *</label>
+                                        <input type="text" id="customer" name="customer"  class="form-control" placeholder="Enter Customer Name" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>   
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Customer Phone number *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Phone number" required>
+                                        <label for="phonenumber">Customer Phone number *</label>
+                                        <input type="text" id="phonenumber" name="phonenumber" class="form-control" placeholder="Enter Phone number" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div> 
                                 <div class="col-md-6"> 
                                     <div class="form-group">
-                                        <label>Order Tax *</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
-                                            <option>No Text</option>
-                                            <option>GST @5%</option>
-                                            <option>VAT @10%</option>
+                                        <label for="ordertax">Order Tax *</label>
+                                        <select id="ordertax" name="ordertax" class="selectpicker form-control" data-style="py-0">
+                                            <option value="notax">No Tax</option>
+                                            <option value="gst5">GST @5%</option>
+                                            <option value="vat10">VAT @10%</option>
                                         </select>
                                     </div>
                                 </div> 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Order Discount</label>
-                                        <input type="text" class="form-control" placeholder="Discount">
+                                        <label for="orderdiscount">Order Discount</label>
+                                        <input type="text" id="orderdiscount" name="orderdiscount" class="form-control" placeholder="Discount">
                                     </div>
                                 </div> 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Attach Document</label>
-                                        <input type="file" class="form-control image-file" name="pic" accept="image/*">
+                                        <label for="attach">Attach Document</label>
+                                        <input type="file" id="attach" name="attach" class="form-control image-file" name="pic" accept="image/*">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Return Note *</label>
-                                        <div id="quill-tool">
-                                            <button class="ql-bold" data-toggle="tooltip" data-placement="bottom" title="Bold"></button>
-                                            <button class="ql-underline" data-toggle="tooltip" data-placement="bottom" title="Underline"></button>
-                                            <button class="ql-italic" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
-                                            <button class="ql-image" data-toggle="tooltip" data-placement="bottom" title="Upload image"></button>
-                                            <button class="ql-code-block" data-toggle="tooltip" data-placement="bottom" title="Show code"></button>
-                                        </div>
-                                        <div id="quill-toolbar">
-                                        </div>
+                                        <label for="returnnote">Return Note *</label>
+                                        <textarea type="text" id="returnnote" name="returnnote" class="form-control" rows="2"></textarea>
                                     </div>
                                 </div> 
                             </div>                            
@@ -646,6 +583,125 @@
             </div>
         </div>
     </footer>
+    <script type="module">
+        // Firebase initialization
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                alert("Please sign in to add returns.");
+            }
+        });
+
+        async function addreturn(returnid, purchasedate, phonenumber, productcode, customer, ordertax, orderdiscount, returnnote) {
+            if (!currentUser) {
+                alert("Please sign in to add returns.");
+                return;
+            }
+
+            try {
+                // Check if the code is unique
+                const returnQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "return"), where("returnid", "==", returnid)));
+                if (!returnQuerySnapshot.empty) {
+                    alert("Return with the same returnid already exists.");
+                    return;
+                }
+
+                const userDocRef = doc(db, "Data", currentUser.uid);
+                const returnsRef = collection(userDocRef, "return");
+                const returnsId = phonenumber; // Use phonenumber as customersId
+                await setDoc(doc(returnsRef, returnsId), {
+                    Date: new Date().toLocaleDateString(),
+                    Time: new Date().toLocaleTimeString(),
+                    ReturnID: returnid,
+                    PurchaseDate: purchasedate,
+                    ProductCode: productcode,
+                    Customer: customer,
+                    Phoneno: phonenumber,
+                    Ordertax: ordertax,
+                    OrderDiscount: orderdiscount,
+                    // Attach: attach,
+                    ReturnNote: returnnote,
+                });
+                alert("Return added successfully with ReturnID: " + returnid);
+            } catch (error) {
+                console.error("Error adding product:", error);
+                alert("Failed to add return. Please try again.");
+            }
+        }
+
+        const returnForm = document.getElementById("returnForm");
+        returnForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const returnIDInput = document.getElementById("returnid");
+            const purchasedateInput = document.getElementById("purchasedate");
+            const productcodeInput = document.getElementById("productcode");
+            const customerInput = document.getElementById("customer");
+            const phonenumberInput = document.getElementById("phonenumber");
+            const ordertaxInput = document.getElementById("ordertax");
+            const orderdiscountInput = document.getElementById("orderdiscount");
+            // const attachInput = document.getElementById("attach");
+            const returnnoteInput = document.getElementById("returnnote");
+            await addcustomer(
+                returnIDInput.value, 
+                purchasedateInput.value, 
+                productcodeInput.value, 
+                customerInput.value, 
+                phonenumberInput.value, 
+                ordertaxInput.value, 
+                orderdiscountInput.value, 
+                // attachInput.value, 
+                returnnoteInput.value
+            );
+        });
+    </script>
+    <script>
+        let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+        let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+        let GreetHead = document.getElementById('GreetMsg')
+        let SignoutButton = document.getElementById('SignOutbtn')
+
+        
+        let Signout = () => {
+            sessionStorage.removeItem("user-creds");
+            sessionStorage.removeItem("user-info");
+            window.location.href = "./login.html"
+        } 
+
+        let checkCred = () =>{
+            if(!sessionStorage.getItem("user-creds")){
+                window.location.href = "./auth-sign-in.html"
+            }
+            
+            else{
+                // MsgHead.innerText = `user with email ${userCreds.email} and mobile number ${userInfo.mobilenumber}`
+                GreetHead.innerText = `  ${userInfo.firstname}  ${userInfo.lastname}! `
+            }
+        }
+
+        window.addEventListener('load',checkCred);
+        SignoutButton.addEventListener('click',Signout);
+        </script>
     <script src="/assets/js/firebaseconfig.js"></script>
     <!-- Backend Bundle JavaScript -->
     <script src="/assets/js/backend-bundle.min.js"></script>
