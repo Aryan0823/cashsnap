@@ -671,45 +671,13 @@
 
     
     
-    <script>
-        let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
-        let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
-
-        let GreetHead = document.getElementById('GreetMsg')
-        let SignoutButton = document.getElementById('SignOutbtn')
-
-        
-        let Signout = () => {
-            sessionStorage.removeItem("user-creds");
-            sessionStorage.removeItem("user-info");
-            window.location.href = "./auth-sign-in.html"
-        } 
-
-        let checkCred = () =>{
-            if(!sessionStorage.getItem("user-creds")){
-                window.location.href = "./auth-sign-in.html"
-            }
-            
-            else{
-                // MsgHead.innerText = `user with email ${userCreds.email} and mobile number ${userInfo.mobilenumber}`
-                GreetHead.innerText = `  ${userInfo.firstname}  ${userInfo.lastname}! `
-            }
-        }
-
-        window.addEventListener('load',checkCred);
-        SignoutButton.addEventListener('click',Signout);
-    </script>
-
-    <script src="/assets/js/firebaseconfig.js"></script>
-
-    <script src="/assets/js/backend-bundle.min.js"></script>
-    
-    <script src="/assets/js/table-treeview.js"></script>
-   
-    <script src="/assets/js/customizer.js"></script>
-    
-    <script async src="/assets/js/chart-custom.js"></script>
-    
-    <script src="/assets/js/app.js"></script>
+<script src="/assets/js/login.js"></script>
+<script src="/assets/js/firebaseconfig.js"></script>
+<script src="/assets/js/dashboard.js"></script>
+<script src="/assets/js/backend-bundle.min.js"></script>
+<script src="/assets/js/table-treeview.js"></script>
+<script src="/assets/js/customizer.js"></script>
+<script async src="/assets/js/chart-custom.js"></script>
+<script src="/assets/js/app.js"></script>
   </body>
 </html>
