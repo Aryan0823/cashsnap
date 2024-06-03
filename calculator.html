@@ -36,6 +36,9 @@
             width: 100vw;
             display: grid;
             place-items: center;
+            align-items: start;
+            justify-content: start;
+            justify-items: start;
         }
 
         .calculator {
@@ -383,7 +386,6 @@
                       <a href="/dashboard.html" class="header-logo">
                           <img src="/assets/images/logo.png" class="img-fluid rounded-normal" alt="logo">
                           <h5 class="logo-title ml-3">Cashsnap</h5>
-      
                       </a>
                   </div>
                   <div class="iq-search-bar device-search">
@@ -400,9 +402,6 @@
                       </button>
                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
                           <ul class="navbar-nav ml-auto navbar-list align-items-center">
-                              
-                             
-                              
                               <li class="nav-item nav-icon dropdown caption-content">
                                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -435,6 +434,8 @@
               </nav>
           </div>
       </div>
+      <div class="content-page">
+        <div class="container-fluid">
         <div class="container">
             <div class="calculator">
                 <div id="grandTotalDisplay">Grand Total</div>
@@ -444,7 +445,6 @@
                 <div class="buttons">
                     <table>
                         <tbody>
-                            <!-- Add tbody tag here -->
                             <tr>
                                 <td><button class="btn-operator" id="allclear">AC</button></td>
                             </tr>
@@ -483,11 +483,12 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Wrapper End-->
     <footer class="iq-footer">
         <div class="container-fluid">
