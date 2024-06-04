@@ -345,48 +345,49 @@
         <script type="module">
             // Firebase initialization
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-            import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            import { getFirestore, collection, doc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
             import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    
+            
             const firebaseConfig = {
-                apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-                authDomain: "cashsnap-9a185.firebaseapp.com",
-                projectId: "cashsnap-9a185",
-                storageBucket: "cashsnap-9a185.appspot.com",
-                messagingSenderId: "1046320871049",
-                appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-                measurementId: "G-5M366WH052"
-            };
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+        };
             const app = initializeApp(firebaseConfig);
             const db = getFirestore(app);
             const auth = getAuth(app);
-    
+        
             let currentUser = null;
-    
+        
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     currentUser = user;
+                    loadProducts(); // Load products when the user is signed in
                 } else {
-                    alert("Please sign in to add products.");
+                    alert("Please sign in to view products.");
                 }
             });
-    
+        
             async function loadProducts() {
                 if (!currentUser) {
                     alert("Please sign in to view products.");
                     return;
                 }
-    
+        
                 try {
                     const userDocRef = collection(db, "Data", currentUser.uid, "products");
                     const productsSnapshot = await getDocs(userDocRef);
                     const productTableBody = document.getElementById("productTableBody");
                     productTableBody.innerHTML = ""; // Clear any existing rows
-    
+        
                     productsSnapshot.forEach((doc) => {
                         const productData = doc.data();
                         const productRow = document.createElement("tr");
-    
+        
                         productRow.innerHTML = `
                             <td>
                                 <div class="checkbox d-inline-block">
@@ -415,17 +416,17 @@
                                 </div>
                             </td>
                         `;
-    
+        
                         productTableBody.appendChild(productRow);
                     });
-    
+        
                     // Attach event listeners for delete buttons
                     const deleteButtons = document.querySelectorAll(".delete-product");
                     deleteButtons.forEach(button => {
                         button.addEventListener("click", async (event) => {
                             event.preventDefault();
-                            const productId = button.getAttribute("data-product-id");
-                            await deleteProduct(productId);
+                            const code = button.getAttribute("data-product-id");
+                            await deleteProduct(code);
                         });
                     });
                 } catch (error) {
@@ -433,24 +434,24 @@
                     alert("Failed to load products. Please try again.");
                 }
             }
-    
-            async function deleteProduct(productId) {
+        
+            async function deleteProduct(code) {
                 if (!currentUser) {
                     alert("Please sign in to delete products.");
                     return;
                 }
-    
+        
                 try {
-                    const productRef = doc(db, "Data", currentUser.uid, "products", productId);
+                    const productRef = doc(db, "Data", currentUser.uid, "products", code);
                     await deleteDoc(productRef);
                     alert("Product deleted successfully.");
-                    await loadProducts(); // Refresh the product list
+                    await loadProducts(); // Refresh the product list after deletion
                 } catch (error) {
                     console.error("Error deleting product:", error);
                     alert("Failed to delete product. Please try again.");
                 }
             }
-    
+        
             document.getElementById("refreshButton").addEventListener("click", loadProducts);
         </script>
 
