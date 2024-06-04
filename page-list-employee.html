@@ -288,12 +288,11 @@
                                         </div>
                                     </th>
                                     <th>Name</th>
+                                    <th>EmployeeId</th>
+                                    <th>Phone No.</th>
                                     <th>Email</th>
-                                    <th>Company</th>
-                                    <th>Awors Points</th>
-                                    <th>Group</th>
+                                    <th>Gender</th>
                                     <th>Status</th>
-                                    <th>Store</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -361,13 +360,13 @@
                                 <label for="checkbox${doc.id}" class="mb-0"></label>
                             </div>
                         </td>
-                        <td>${employeeData.Name}</td>
-                        <td>${employeeData.Email}</td>
-                        <td>${employeeData.Company || "N/A"}</td>
-                        <td>${employeeData.AwardsPoints || 0}</td>
-                        <td>${employeeData.Group || "N/A"}</td>
-                        <td>${employeeData.Status}</td>
-                        <td>${employeeData.Store || "N/A"}</td>
+                        <td>${employeeData.Name || "N/A"}</td>
+                        <td>${employeeData.EmployeeId}</td>
+                        <td>${employeeData.Phonenumber || "N/A"}</td>
+                        <td>${employeeData.Email ||"N/A" }</td>
+                        <td>${employeeData.Gender || "N/A"}</td>
+                        <td>${employeeData.Status || "N/A"}</td>
+                        
                         <td>
                             <div class="d-flex align-items-center list-action">
                                 <a class="badge badge-info mr-2" data-toggle="tooltip" data-placement="top" title="View" href="#"><i class="ri-eye-line mr-0"></i></a>

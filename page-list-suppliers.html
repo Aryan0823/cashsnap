@@ -288,12 +288,13 @@
                                                 </div>
                                             </th>
                                             <th>Company Name</th>
-                                            <th>Name</th>
                                             <th>Email</th>
                                             <th>Phone No.</th>
-                                            <th>City</th>
                                             <th>Country</th>
+                                            <th>State</th>
+                                            <th>City</th>
                                             <th>GST No</th>
+                                            <th>Active</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -361,13 +362,14 @@
                                         <label for="checkbox${doc.id}" class="mb-0"></label>
                                     </div>
                                 </td>
-                                <td>${supplierData.CompanyName}</td>
                                 <td>${supplierData.Name}</td>
                                 <td>${supplierData.Email}</td>
-                                <td>${supplierData.PhoneNo}</td>
-                                <td>${supplierData.City}</td>
+                                <td>${supplierData.Phoneno}</td>
                                 <td>${supplierData.Country}</td>
-                                <td>${supplierData.GSTNo}</td>
+                                <td>${supplierData.State}</td>
+                                <td>${supplierData.City}</td>
+                                <td>${supplierData.Gst}</td>
+                                <td></td>
                                 <td>
                                     <div class="d-flex align-items-center list-action">
                                         <a class="badge badge-info mr-2" data-toggle="tooltip" data-placement="top" title="View" href="#"><i class="ri-eye-line mr-0"></i></a>
@@ -376,7 +378,6 @@
                                     </div>
                                 </td>
                             `;
-            
                             supplierTableBody.appendChild(supplierRow);
                         });
             
@@ -400,7 +401,6 @@
                         alert("Please sign in to delete suppliers.");
                         return;
                     }
-            
                     try {
                         const supplierRef = doc(db, "Data", currentUser.uid, "suppliers", supplierId);
                         await deleteDoc(supplierRef);
