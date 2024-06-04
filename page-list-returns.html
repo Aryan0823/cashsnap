@@ -401,7 +401,7 @@
             }
     
             try {
-                const returnRef = doc(db, "Data", currentUser.uid, "returns", returnId);
+                const returnRef = doc(db, "Data", currentUser.uid, "return", returnId);
                 await deleteDoc(returnRef);
                 alert("Return deleted successfully.");
                 await loadReturns(); // Refresh the return list
