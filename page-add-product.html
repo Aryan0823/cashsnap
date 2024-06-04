@@ -301,18 +301,11 @@
                                                     <div class="help-block with-errors"></div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6"> 
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="barcode">Barcode Symbology *</label>
-                                                    <select id="barcode" name="barcode" class="selectpicker form-control" data-style="py-0">
-                                                        <option value="CRM01">CREM01</option>
-                                                        <option value="UM01">UM01</option>
-                                                        <option value="SEM01">SEM01</option>
-                                                        <option value="COF01">COF01</option>
-                                                        <option value="FUN01">FUN01</option>
-                                                        <option value="DIS01">DIS01</option>
-                                                        <option value="NIS01">NIS01</option>
-                                                    </select>
+                                                    <input id="barcode" name="barcode" class="form-control" placeholder="Enter Code" data-errors="Please Enter Barcode." required>
+                                                    <div class="help-block with-errors"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -444,13 +437,13 @@
                     Date: new Date().toLocaleDateString(),
                     Time: new Date().toLocaleTimeString(),
                     Code: code,
-                    "Product Type": productType,
+                    ProductType: productType,
                     Name: name,
                     Barcode: barcode,
                     Category: category,
                     Cost: cost,
                     Price: price,
-                    "Tax Method": tax,
+                    TaxMethod: tax,
                     Quantity: quantity
                 });
                 alert("Product added successfully with ID: " + productId);
