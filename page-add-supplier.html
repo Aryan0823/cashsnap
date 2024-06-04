@@ -330,6 +330,15 @@
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="status">Status *</label>
+                                        <select id="status" name="status" class="selectpicker form-control" data-style="py-0">
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>                            
                             <button type="submit" class="btn btn-primary mr-2">Add Supplier</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
@@ -391,7 +400,7 @@
             }
         });
 
-        async function addsupplier(name, email, phonenumber, gst, country, address, city, state) {
+        async function addsupplier(name, email, phonenumber, gst, country, address, city, state, status) {
             if (!currentUser) {
                 alert("Please sign in to add suppliers.");
                 return;
@@ -418,7 +427,8 @@
                     Country: country,
                     Address: address,
                     City: city,
-                    State: state
+                    State: state,
+                    Status: status
                 });
                 alert("Supplier added successfully with Phone number: " + phonenumber);
             } catch (error) {
@@ -438,7 +448,7 @@
             const addressInput = document.getElementById("address");
             const cityInput = document.getElementById("city");
             const stateInput = document.getElementById("state");
-            
+            const statusInput = document.getElementById("status");
 
             await addsupplier(
                 nameInput.value, 
@@ -448,7 +458,8 @@
                 countryInput.value, 
                 addressInput.value, 
                 cityInput.value, 
-                stateInput.value 
+                stateInput.value,
+                statusInput.value
             );
         });
     </script>
