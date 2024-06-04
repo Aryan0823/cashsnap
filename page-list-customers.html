@@ -284,12 +284,6 @@
                         <table class="data-table table mb-0 tbl-server-info">
                             <thead class="bg-white text-uppercase">
                                 <tr class="ligth ligth-data">
-                                    <th>
-                                        <div class="checkbox d-inline-block">
-                                            <input type="checkbox" class="checkbox-input" id="checkbox1">
-                                            <label for="checkbox1" class="mb-0"></label>
-                                        </div>
-                                    </th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone No.</th>
@@ -358,12 +352,6 @@
                     const customerRow = document.createElement("tr");
     
                     customerRow.innerHTML = `
-                        <td>
-                            <div class="checkbox d-inline-block">
-                                <input type="checkbox" class="checkbox-input" id="checkbox${doc.id}">
-                                <label for="checkbox${doc.id}" class="mb-0"></label>
-                            </div>
-                        </td>
                         <td>${customerData.Name}</td>
                         <td>${customerData.Email}</td>
                         <td>${customerData.Phoneno}</td>

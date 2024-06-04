@@ -282,12 +282,6 @@
                             <table class="data-tables table mb-0 tbl-server-info">
                                 <thead class="bg-white text-uppercase">
                                     <tr class="ligth ligth-data">
-                                        <th>
-                                            <div class="checkbox d-inline-block">
-                                                <input type="checkbox" class="checkbox-input" id="checkbox1">
-                                                <label for="checkbox1" class="mb-0"></label>
-                                            </div>
-                                        </th>
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>ProductType</th>
@@ -389,24 +383,12 @@
                         const productRow = document.createElement("tr");
         
                         productRow.innerHTML = `
-                            <td>
-                                <div class="checkbox d-inline-block">
-                                    <input type="checkbox" class="checkbox-input" id="checkbox${doc.id}">
-                                    <label for="checkbox${doc.id}" class="mb-0"></label>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        ${productData.Code}
-                                    </div>
-                                </div>
-                            </td>
+                            <td class="center-align">${productData.Code}</td>
                             <td>${productData.Name || "N/A"}</td>
                             <td>${productData.ProductType || "N/A"}</td>
-                            <td>₹${productData.Cost || "N/A"}</td>
-                            <td>₹${productData.Price || "N/A"}</td>
-                            <td>₹${productData.Quantity || "N/A"}</td>
+                            <td>${productData.Cost || "N/A"}</td>
+                            <td>${productData.Price || "N/A"}</td>
+                            <td>${productData.Quantity || "N/A"}</td>
                             <td>${productData.Barcode || "N/A"}</td>
                             <td>
                                 <div class="d-flex align-items-center list-action">
