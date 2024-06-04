@@ -5216,9 +5216,31 @@ if (jQuery("#editor").length) {
     chart.scrollbarX = new am4core.Scrollbar();
     
     // Add data
-    chart.data = [
-
-    ];
+    chart.data = [{
+      "country": "Jan",
+      "visits": 3025
+    }, {
+      "country": "Feb",
+      "visits": 1882
+    }, {
+      "country": "Mar",
+      "visits": 1809
+    }, {
+      "country": "Apr",
+      "visits": 1322
+    }, {
+      "country": "May",
+      "visits": 1122
+    }, {
+      "country": "Jun",
+      "visits": 1114
+    }, {
+      "country": "Jul",
+      "visits": 984
+    }, {
+      "country": "Aug",
+      "visits": 711
+    }];
     
     prepareParetoData();
     
