@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Add Return | Cashsnap</title>
+      <title>Add Employee | Cashsnap</title>
       
       <!-- Favicon -->
       <link rel="shortcut icon" href="/assets/images/favicon.ico" />
@@ -111,9 +111,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
-                        
-                        <li class="active">
+                        <li class=" ">
                             <a href="#return" class="collapsed" data-toggle="collapse" aria-expanded="false">
                                 <svg class="svg-icon" id="p-dash6" width="20" height="20"
                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -139,7 +137,7 @@
                                         <i class="las la-minus"></i><span>List Returns</span>
                                     </a>
                                 </li>
-                                <li class="active">
+                                <li class="">
                                     <a href="/page-add-return.html">
                                         <i class="las la-minus"></i><span>Add Return</span>
                                     </a>
@@ -167,7 +165,7 @@
                                 </svg>
                             </a>
                             <ul id="people" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                                <li class="">
+                                <li class="active">
                                     <a href="/page-list-customers.html">
                                         <i class="las la-minus"></i><span>Customers</span>
                                     </a>
@@ -178,12 +176,12 @@
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="/page-list-users.html">
+                                    <a href="/page-list-employee.html">
                                         <i class="las la-minus"></i><span>Employee</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="/page-add-users.html">
+                                <li class="active">
+                                    <a href="/page-add-employee.html">
                                         <i class="las la-minus"></i><span>Add Employee</span>
                                     </a>
                                 </li>
@@ -230,9 +228,6 @@
                       </button>
                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
                           <ul class="navbar-nav ml-auto navbar-list align-items-center">
-                              
-                             
-                              
                               <li class="nav-item nav-icon dropdown caption-content">
                                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -265,88 +260,80 @@
               </nav>
           </div>
       </div>
-    <div class="content-page">
-     <div class="container-fluid add-form-list">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <div class="header-title">
-                            <h4 class="card-title">Add Return</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form id="returnForm">
-                            <div class="row">  
-                                <div class="col-md-12">                      
-                                    <div class="form-group">
-                                        <label for="returnid">Return ID *</label>
-                                        <input type="text" id="returnid" name="returnid" class="form-control" placeholder="Return ID" required>
-                                    </div>
-                                </div>                                
-                                <div class="col-md-6">                      
-                                    <div class="form-group">
-                                        <label for="purchasedate">Purchase Date *</label>
-                                        <input type="date" id="purchasedate" name="purchasedate" class="form-control" placeholder="Purchase Date" required>
+        <div class="wrapper">
+            <div class="content-page">
+                <div class="container-fluid add-form-list">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="header-title">
+                                        <h4 class="card-title">Add Employee</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="productcode">Product Code *</label>
-                                        <input type="text" id="productcode" name="productcode" class="form-control" placeholder="Enter Product Code" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div> 
-                            
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="customer">Customer *</label>
-                                        <input type="text" id="customer" name="customer"  class="form-control" placeholder="Enter Customer Name" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>   
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phonenumber">Customer Phone number *</label>
-                                        <input type="text" id="phonenumber" name="phonenumber" class="form-control" placeholder="Enter Phone number" pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div> 
-                                <div class="col-md-6"> 
-                                    <div class="form-group">
-                                        <label for="ordertax">Order Tax *</label>
-                                        <select id="ordertax" name="ordertax" class="selectpicker form-control" data-style="py-0">
-                                            <option value="notax">No Tax</option>
-                                            <option value="gst5">GST @5%</option>
-                                            <option value="vat10">VAT @10%</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="orderdiscount">Order Discount</label>
-                                        <input type="text" id="orderdiscount" name="orderdiscount" class="form-control" placeholder="Discount">
-                                    </div>
-                                </div> 
-                                <div class="col-md-12">
-
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="returnnote">Return Note *</label>
-                                        <textarea type="text" id="returnnote" name="returnnote" class="form-control" rows="2"></textarea>
-                                    </div>
-                                </div> 
-                            </div>                            
-                            <button type="submit" class="btn btn-primary mr-2">Add Returns</button>
-                            <button type="reset" class="btn btn-danger">Reset</button>
-                        </form>
+                                <div class="card-body">
+                                    <form id="employeeForm">
+                                        <div class="row"> 
+                                            <div class="col-md-12">                      
+                                                <div class="form-group">
+                                                    <label for="name">Name *</label>
+                                                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">                      
+                                                <div class="form-group">
+                                                    <label for="employeeId">Employee ID *</label>
+                                                    <input type="text" id="employeeId" name="employeeId" class="form-control" placeholder="Enter Employee ID" required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="phonenumber">Phone Number *</label>
+                                                    <input type="tel" id="phonenumber" name="phonenumber" class="form-control" placeholder="Enter Phone No" pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$" required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div> 
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="email">Email *</label>
+                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div> 
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="gender">Gender</label>
+                                                    <select id="gender" name="gender" class="selectpicker form-control" data-style="py-0">
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                        <option value="other">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div> 
+                                            
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="status">Status *</label>
+                                                    <select id="status" name="status" class="selectpicker form-control" data-style="py-0">
+                                                        <option value="active">Active</option>
+                                                        <option value="inactive">Inactive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                                                         
+                                        </div>                            
+                                        <button type="submit" class="btn btn-primary mr-2">Add Employee</button>
+                                        <button type="reset" class="btn btn-danger">Reset</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Page end  -->
-    </div>
-      </div>
     </div>
     <!-- Wrapper End-->
     <footer class="iq-footer">
@@ -369,20 +356,20 @@
         </div>
     </footer>
     <script type="module">
-        // Firebase initialization
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     
         const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-        };
+                   apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+                   authDomain: "cashsnap-9a185.firebaseapp.com",
+                   projectId: "cashsnap-9a185",
+                   storageBucket: "cashsnap-9a185.appspot.com",
+                   messagingSenderId: "1046320871049",
+                   appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+                   measurementId: "G-5M366WH052"
+               };
+    
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
@@ -393,67 +380,60 @@
             if (user) {
                 currentUser = user;
             } else {
-                alert("Please sign in to add returns.");
+                alert("Please sign in to add an employee.");
             }
         });
     
-        async function addreturn(returnid, purchasedate, productcode, customer, phonenumber, ordertax, orderdiscount, returnnote) {
+        async function addEmployee(name, employeeId, phonenumber, email, gender, status) {
             if (!currentUser) {
-                alert("Please sign in to add returns.");
+                alert("Please sign in to add an employee.");
                 return;
             }
     
             try {
-                // Check if the code is unique
-                const returnQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "return"), where("returnid", "==", returnid)));
-                if (!returnQuerySnapshot.empty) {
-                    alert("Return with the same returnid already exists.");
+                // Check if the employee with the same ID already exists
+                const employeeQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "employee"), where("employeeId", "==", employeeId)));
+                if (!employeeQuerySnapshot.empty) {
+                    alert("An employee with the same ID already exists.");
                     return;
                 }
     
                 const userDocRef = doc(db, "Data", currentUser.uid);
-                const returnsRef = collection(userDocRef, "return");
-                const returnsId = returnid; // Use phonenumber as customersId
-                await setDoc(doc(returnsRef, returnsId), {
+                const employeeRef = collection(userDocRef, "employee");
+                await setDoc(doc(employeeRef, employeeId), {
                     Date: new Date().toLocaleDateString(),
                     Time: new Date().toLocaleTimeString(),
-                    ReturnID: returnid,
-                    PurchaseDate: purchasedate,
-                    ProductCode: productcode,
-                    Customer: customer,
-                    Phoneno: phonenumber,
-                    Ordertax: ordertax,
-                    OrderDiscount: orderdiscount,
-    
-                    ReturnNote: returnnote,
+                    Name: name,
+                    EmployeeId: employeeId,
+                    Phonenumber: phonenumber,
+                    Email: email,
+                    Gender: gender,
+                    Status: status
                 });
-                alert("Return added successfully with ReturnID: " + returnid);
+                alert("Employee added successfully with ID: " + employeeId);
             } catch (error) {
-                console.error("Error adding product:", error);
-                alert("Failed to add return. Please try again.");
+                console.error("Error adding employee:", error);
+                alert("Failed to add employee. Please try again.");
             }
         }
     
-        const returnForm = document.getElementById("returnForm");
-        returnForm.addEventListener('submit', async (event) => {
+        const employeeForm = document.getElementById("employeeForm");
+        employeeForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const returnidInput = document.getElementById("returnid");
-            const purchasedateInput = document.getElementById("purchasedate");
-            const productcodeInput = document.getElementById("productcode");
-            const customerInput = document.getElementById("customer");
+            const nameInput = document.getElementById("name");
+            const employeeIdInput = document.getElementById("employeeId");
             const phonenumberInput = document.getElementById("phonenumber");
-            const ordertaxInput = document.getElementById("ordertax");
-            const orderdiscountInput = document.getElementById("orderdiscount");
-            const returnnoteInput = document.getElementById("returnnote");
-            await addreturn(
-                returnidInput.value,
-                purchasedateInput.value,
-                productcodeInput.value,
-                customerInput.value,
+            const emailInput = document.getElementById("email");
+            const genderInput = document.getElementById("gender");
+            const statusInput = document.getElementById("status");
+    
+            await addEmployee(
+                nameInput.value,
+                employeeIdInput.value,
                 phonenumberInput.value,
-                ordertaxInput.value,
-                orderdiscountInput.value,
-                returnnoteInput.value
+                emailInput.value,
+                genderInput.value,
+                statusInput.value
             );
         });
     </script>
