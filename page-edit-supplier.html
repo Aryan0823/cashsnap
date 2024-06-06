@@ -128,101 +128,117 @@
                 </div>
             </div>
         </div>
-    <script type="module">
-        // Firebase initialization
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        let currentUser = null;
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-            } else {
-                alert("Please sign in to add suppliers.");
-            }
-        });
-
-        async function addsupplier(name, email, phonenumber, gst, country, address, city, state, status) {
-            if (!currentUser) {
-                alert("Please sign in to add suppliers.");
-                return;
-            }
-
-            try {
-                // Check if the code is unique
-                const supplierQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "customer"), where("phonenumber", "==", phonenumber)));
-                if (!supplierQuerySnapshot.empty) {
-                    alert("Supplier with the same Phone Number already exists.");
+        <script type="module">
+            // Firebase initialization
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+            const firebaseConfig = {
+                apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+                authDomain: "cashsnap-9a185.firebaseapp.com",
+                projectId: "cashsnap-9a185",
+                storageBucket: "cashsnap-9a185.appspot.com",
+                messagingSenderId: "1046320871049",
+                appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+                measurementId: "G-5M366WH052"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+        
+            let currentUser = null;
+        
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                } else {
+                    alert("Please sign in to add suppliers.");
+                }
+            });
+        
+            async function addOrUpdateSupplier(name, email, phonenumber, gst, country, address, city, state, status) {
+                if (!currentUser) {
+                    alert("Please sign in to add or update suppliers.");
                     return;
                 }
-
-                const userDocRef = doc(db, "Data", currentUser.uid);
-                const suppliersRef = collection(userDocRef, "suppliers");
-                const suppliersId = phonenumber; // Use phonenumber as suppliersId
-                await setDoc(doc(suppliersRef, suppliersId), {
-                    Date: new Date().toLocaleDateString(),
-                    Time: new Date().toLocaleTimeString(),
-                    Name: name,
-                    Email: email,
-                    Gst: gst,
-                    Phoneno: phonenumber,
-                    Country: country,
-                    Address: address,
-                    City: city,
-                    State: state,
-                    Status: status
-                });
-                alert("Supplier added successfully with Phone number: " + phonenumber);
-            } catch (error) {
-                console.error("Error adding product:", error);
-                alert("Failed to add product. Please try again.");
+        
+                try {
+                    // Check if the supplier with the provided phone number already exists
+                    const supplierQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "suppliers"), where("Phoneno", "==", phonenumber)));
+                    if (!supplierQuerySnapshot.empty) {
+                        // If the supplier exists, update the existing record
+                        const existingSupplierDoc = supplierQuerySnapshot.docs[0]; // Assuming there's only one supplier with the same phone number
+                        await setDoc(existingSupplierDoc.ref, {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            Name: name,
+                            Email: email,
+                            Gst: gst,
+                            Phoneno: phonenumber,
+                            Country: country,
+                            Address: address,
+                            City: city,
+                            State: state,
+                            Status: status
+                        });
+                        alert("Supplier with Phone number " + phonenumber + " updated successfully.");
+                    } else {
+                        // If the supplier does not exist, add a new record
+                        const userDocRef = doc(db, "Data", currentUser.uid);
+                        const suppliersRef = collection(userDocRef, "suppliers");
+                        await setDoc(doc(suppliersRef, phonenumber), {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            Name: name,
+                            Email: email,
+                            Gst: gst,
+                            Phoneno: phonenumber,
+                            Country: country,
+                            Address: address,
+                            City: city,
+                            State: state,
+                            Status: status
+                        });
+                        alert("Supplier added successfully with Phone number: " + phonenumber);
+                    }
+                } catch (error) {
+                    console.error("Error adding or updating supplier:", error);
+                    alert("Failed to add or update supplier. Please try again.");
+                }
             }
-        }
-
-        const supplierForm = document.getElementById("supplierForm");
-        supplierForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const nameInput = document.getElementById("name");
-            const emailInput = document.getElementById("email");
-            const phonenumberInput = document.getElementById("phonenumber");
-            const gstInput = document.getElementById("gst");
-            const countryInput = document.getElementById("country");
-            const addressInput = document.getElementById("address");
-            const cityInput = document.getElementById("city");
-            const stateInput = document.getElementById("state");
-            const statusInput = document.getElementById("status");
-
-            await addsupplier(
-                nameInput.value, 
-                emailInput.value, 
-                phonenumberInput.value,
-                gstInput.value,
-                countryInput.value, 
-                addressInput.value, 
-                cityInput.value, 
-                stateInput.value,
-                statusInput.value
-            );
-        });
-        document.getElementById('backButton').addEventListener('click', function() {
-        window.location.href = 'page-list-suppliers.html';
-        });
-    </script>
+        
+            const supplierForm = document.getElementById("supplierForm");
+            supplierForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const nameInput = document.getElementById("name");
+                const emailInput = document.getElementById("email");
+                const phonenumberInput = document.getElementById("phonenumber");
+                const gstInput = document.getElementById("gst");
+                const countryInput = document.getElementById("country");
+                const addressInput = document.getElementById("address");
+                const cityInput = document.getElementById("city");
+                const stateInput = document.getElementById("state");
+                const statusInput = document.getElementById("status");
+        
+                await addOrUpdateSupplier(
+                    nameInput.value,
+                    emailInput.value,
+                    phonenumberInput.value,
+                    gstInput.value,
+                    countryInput.value,
+                    addressInput.value,
+                    cityInput.value,
+                    stateInput.value,
+                    statusInput.value
+                );
+            });
+        
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.location.href = 'page-list-suppliers.html';
+            });
+        </script>
+        
     <script src="/assets/js/login.js"></script>
     <script src="/assets/js/firebaseconfig.js"></script>
     <script src="/assets/js/dashboard.js"></script>

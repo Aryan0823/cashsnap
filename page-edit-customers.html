@@ -92,7 +92,8 @@
                                             </div>
                                         </div>
                                    </div>                            
-                                   <button type="submit" class="btn btn-primary mr-2">Add Customer</button>
+                                   <button type="submit" class="btn btn-primary mr-2">Edit Customer</button>
+                                   <button type="button" class="btn btn-secondary mr-2" id="backButton">Back</button>
                                    <button type="reset" class="btn btn-danger">Reset</button>
                                </form>
                            </div>
@@ -124,95 +125,113 @@
                 </div>
             </div>
         </div>
-           <script type="module">
-               // Firebase initialization
-               import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-               import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-               import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-       
-               const firebaseConfig = {
-                   apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-                   authDomain: "cashsnap-9a185.firebaseapp.com",
-                   projectId: "cashsnap-9a185",
-                   storageBucket: "cashsnap-9a185.appspot.com",
-                   messagingSenderId: "1046320871049",
-                   appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-                   measurementId: "G-5M366WH052"
-               };
-               const app = initializeApp(firebaseConfig);
-               const db = getFirestore(app);
-               const auth = getAuth(app);
-       
-               let currentUser = null;
-       
-               onAuthStateChanged(auth, (user) => {
-                   if (user) {
-                       currentUser = user;
-                   } else {
-                       alert("Please sign in to add customers.");
-                   }
-               });
-       
-               async function addcustomer(name, email, phonenumber, country, address, city, state, status) {
-                   if (!currentUser) {
-                       alert("Please sign in to add customers.");
-                       return;
-                   }
-       
-                   try {
-                       // Check if the code is unique
-                       const customerQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "customer"), where("phonenumber", "==", phonenumber)));
-                       if (!customerQuerySnapshot.empty) {
-                           alert("Customer with the same Phone Number already exists.");
-                           return;
-                       }
-       
-                       const userDocRef = doc(db, "Data", currentUser.uid);
-                       const customersRef = collection(userDocRef, "customers");
-                       const customersId = phonenumber; // Use phonenumber as customersId
-                       await setDoc(doc(customersRef, customersId), {
-                           Date: new Date().toLocaleDateString(),
-                           Time: new Date().toLocaleTimeString(),
-                           Name: name,
-                           Email: email,
-                           Phoneno: phonenumber,
-                           Country: country,
-                           Address: address,
-                           City: city,
-                           State: state,
-                           Status: status
-                       });
-                       alert("Customer added successfully with Phone number: " + phonenumber);
-                   } catch (error) {
-                       console.error("Error adding product:", error);
-                       alert("Failed to add product. Please try again.");
-                   }
-               }
-       
-               const customerForm = document.getElementById("customerForm");
-               customerForm.addEventListener('submit', async (event) => {
-                   event.preventDefault();
-                   const nameInput = document.getElementById("name");
-                   const emailInput = document.getElementById("email");
-                   const phonenumberInput = document.getElementById("phonenumber");
-                   const countryInput = document.getElementById("country");
-                   const addressInput = document.getElementById("address");
-                   const cityInput = document.getElementById("city");
-                   const stateInput = document.getElementById("state");
-                   const statusInput = document.getElementById("status");
-       
-                   await addcustomer(
-                       nameInput.value, 
-                       emailInput.value, 
-                       phonenumberInput.value, 
-                       countryInput.value, 
-                       addressInput.value, 
-                       cityInput.value, 
-                       stateInput.value,
-                       statusInput.value
-                   );
-               });
-           </script>
+        <script type="module">
+            // Firebase initialization
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+            const firebaseConfig = {
+                apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+                authDomain: "cashsnap-9a185.firebaseapp.com",
+                projectId: "cashsnap-9a185",
+                storageBucket: "cashsnap-9a185.appspot.com",
+                messagingSenderId: "1046320871049",
+                appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+                measurementId: "G-5M366WH052"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+        
+            let currentUser = null;
+        
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                } else {
+                    alert("Please sign in to add customers.");
+                }
+            });
+        
+            async function addOrUpdateCustomer(name, email, phonenumber, country, address, city, state, status) {
+                if (!currentUser) {
+                    alert("Please sign in to add or update customers.");
+                    return;
+                }
+        
+                try {
+                    // Check if the customer with the provided phone number already exists
+                    const customerQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "customer"), where("phonenumber", "==", phonenumber)));
+                    if (!customerQuerySnapshot.empty) {
+                        // If the customer exists, update the existing record
+                        const existingCustomerDoc = customerQuerySnapshot.docs[0]; // Assuming there's only one customer with the same phone number
+                        await setDoc(existingCustomerDoc.ref, {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            Name: name,
+                            Email: email,
+                            Phoneno: phonenumber,
+                            Country: country,
+                            Address: address,
+                            City: city,
+                            State: state,
+                            Status: status
+                        });
+                        alert("Customer with Phone number " + phonenumber + " updated successfully.");
+                    } else {
+                        // If the customer does not exist, add a new record
+                        const userDocRef = doc(db, "Data", currentUser.uid);
+                        const customersRef = collection(userDocRef, "customers");
+                        const customersId = phonenumber; // Use phonenumber as customersId
+                        await setDoc(doc(customersRef, customersId), {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            Name: name,
+                            Email: email,
+                            Phoneno: phonenumber,
+                            Country: country,
+                            Address: address,
+                            City: city,
+                            State: state,
+                            Status: status
+                        });
+                        alert("Customer added successfully with Phone number: " + phonenumber);
+                    }
+                } catch (error) {
+                    console.error("Error adding or updating customer:", error);
+                    alert("Failed to add or update customer. Please try again.");
+                }
+            }
+        
+            const customerForm = document.getElementById("customerForm");
+            customerForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const nameInput = document.getElementById("name");
+                const emailInput = document.getElementById("email");
+                const phonenumberInput = document.getElementById("phonenumber");
+                const countryInput = document.getElementById("country");
+                const addressInput = document.getElementById("address");
+                const cityInput = document.getElementById("city");
+                const stateInput = document.getElementById("state");
+                const statusInput = document.getElementById("status");
+        
+                await addOrUpdateCustomer(
+                    nameInput.value, 
+                    emailInput.value, 
+                    phonenumberInput.value, 
+                    countryInput.value, 
+                    addressInput.value, 
+                    cityInput.value, 
+                    stateInput.value,
+                    statusInput.value
+                );
+            });
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.location.href = 'page-list-customers.html';
+            });
+        </script>
+        
            <script src="/assets/js/login.js"></script>
            <script src="/assets/js/firebaseconfig.js"></script>
            <script src="/assets/js/dashboard.js"></script>

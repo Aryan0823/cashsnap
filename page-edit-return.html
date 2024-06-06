@@ -124,98 +124,112 @@
             </div>
         </div>
  
-    <script type="module">
-        // Firebase initialization
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    
-        const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-    
-        let currentUser = null;
-    
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-            } else {
-                alert("Please sign in to add returns.");
-            }
-        });
-    
-        async function addreturn(returnid, purchasedate, productcode, customer, phonenumber, ordertax, orderdiscount, returnnote) {
-            if (!currentUser) {
-                alert("Please sign in to add returns.");
-                return;
-            }
-    
-            try {
-                // Check if the code is unique
-                const returnQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "return"), where("returnid", "==", returnid)));
-                if (!returnQuerySnapshot.empty) {
-                    alert("Return with the same returnid already exists.");
+        <script type="module">
+            // Firebase initialization
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+            const firebaseConfig = {
+                apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+                authDomain: "cashsnap-9a185.firebaseapp.com",
+                projectId: "cashsnap-9a185",
+                storageBucket: "cashsnap-9a185.appspot.com",
+                messagingSenderId: "1046320871049",
+                appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+                measurementId: "G-5M366WH052"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+        
+            let currentUser = null;
+        
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                } else {
+                    alert("Please sign in to add or update returns.");
+                }
+            });
+        
+            async function addOrUpdateReturn(returnid, purchasedate, productcode, customer, phonenumber, ordertax, orderdiscount, returnnote) {
+                if (!currentUser) {
+                    alert("Please sign in to add or update returns.");
                     return;
                 }
-    
-                const userDocRef = doc(db, "Data", currentUser.uid);
-                const returnsRef = collection(userDocRef, "return");
-                const returnsId = returnid; // Use phonenumber as customersId
-                await setDoc(doc(returnsRef, returnsId), {
-                    Date: new Date().toLocaleDateString(),
-                    Time: new Date().toLocaleTimeString(),
-                    ReturnID: returnid,
-                    PurchaseDate: purchasedate,
-                    ProductCode: productcode,
-                    Customer: customer,
-                    Phoneno: phonenumber,
-                    Ordertax: ordertax,
-                    OrderDiscount: orderdiscount,
-    
-                    ReturnNote: returnnote,
-                });
-                alert("Return added successfully with ReturnID: " + returnid);
-            } catch (error) {
-                console.error("Error adding product:", error);
-                alert("Failed to add return. Please try again.");
+        
+                try {
+                    // Check if the return with the provided returnid already exists
+                    const returnQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "return"), where("returnid", "==", returnid)));
+                    if (!returnQuerySnapshot.empty) {
+                        // If the return exists, update the existing record
+                        const existingReturnDoc = returnQuerySnapshot.docs[0]; // Assuming there's only one return with the same returnid
+                        await setDoc(existingReturnDoc.ref, {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            ReturnID: returnid,
+                            PurchaseDate: purchasedate,
+                            ProductCode: productcode,
+                            Customer: customer,
+                            Phoneno: phonenumber,
+                            Ordertax: ordertax,
+                            OrderDiscount: orderdiscount,
+                            ReturnNote: returnnote
+                        });
+                        alert("Return with ReturnID " + returnid + " updated successfully.");
+                    } else {
+                        // If the return does not exist, add a new record
+                        const userDocRef = doc(db, "Data", currentUser.uid);
+                        const returnsRef = collection(userDocRef, "return");
+                        await setDoc(doc(returnsRef, returnid), {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            ReturnID: returnid,
+                            PurchaseDate: purchasedate,
+                            ProductCode: productcode,
+                            Customer: customer,
+                            Phoneno: phonenumber,
+                            Ordertax: ordertax,
+                            OrderDiscount: orderdiscount,
+                            ReturnNote: returnnote
+                        });
+                        alert("Return added successfully with ReturnID: " + returnid);
+                    }
+                } catch (error) {
+                    console.error("Error adding or updating return:", error);
+                    alert("Failed to add or update return. Please try again.");
+                }
             }
-        }
-    
-        const returnForm = document.getElementById("returnForm");
-        returnForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const returnidInput = document.getElementById("returnid");
-            const purchasedateInput = document.getElementById("purchasedate");
-            const productcodeInput = document.getElementById("productcode");
-            const customerInput = document.getElementById("customer");
-            const phonenumberInput = document.getElementById("phonenumber");
-            const ordertaxInput = document.getElementById("ordertax");
-            const orderdiscountInput = document.getElementById("orderdiscount");
-            const returnnoteInput = document.getElementById("returnnote");
-            await addreturn(
-                returnidInput.value,
-                purchasedateInput.value,
-                productcodeInput.value,
-                customerInput.value,
-                phonenumberInput.value,
-                ordertaxInput.value,
-                orderdiscountInput.value,
-                returnnoteInput.value
-            );
-        });
-        document.getElementById('backButton').addEventListener('click', function() {
-        window.location.href = 'page-list-returns.html';
-        });
-    </script>
+        
+            const returnForm = document.getElementById("returnForm");
+            returnForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const returnidInput = document.getElementById("returnid");
+                const purchasedateInput = document.getElementById("purchasedate");
+                const productcodeInput = document.getElementById("productcode");
+                const customerInput = document.getElementById("customer");
+                const phonenumberInput = document.getElementById("phonenumber");
+                const ordertaxInput = document.getElementById("ordertax");
+                const orderdiscountInput = document.getElementById("orderdiscount");
+                const returnnoteInput = document.getElementById("returnnote");
+                await addOrUpdateReturn(
+                    returnidInput.value,
+                    purchasedateInput.value,
+                    productcodeInput.value,
+                    customerInput.value,
+                    phonenumberInput.value,
+                    ordertaxInput.value,
+                    orderdiscountInput.value,
+                    returnnoteInput.value
+                );
+            });
+        
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.location.href = 'page-list-returns.html';
+            });
+        </script>
+        
     <script src="/assets/js/login.js"></script>
     <script src="/assets/js/firebaseconfig.js"></script>
     <script src="/assets/js/dashboard.js"></script>

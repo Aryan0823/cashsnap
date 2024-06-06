@@ -148,101 +148,106 @@
             </div>
         </div>
     
-    <script type="module">
-        // Firebase initialization
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        let currentUser = null;
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-            } else {
-                alert("Please sign in to edit products.");
-            }
-        });
-
-        async function addProduct(name, code, productType, barcode, category, cost, price, tax, quantity) {
-            if (!currentUser) {
-                alert("Please sign in to edit products.");
-                return;
-            }
-
-            try {
-                // Check if the code is unique
-                const productQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "products"), where("Code", "==", code)));
-                if (!productQuerySnapshot.empty) {
-                    alert("Product with the same code already exists.");
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getFirestore, doc, setDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+            const firebaseConfig = {
+                apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+                authDomain: "cashsnap-9a185.firebaseapp.com",
+                projectId: "cashsnap-9a185",
+                storageBucket: "cashsnap-9a185.appspot.com",
+                messagingSenderId: "1046320871049",
+                appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+                measurementId: "G-5M366WH052"
+            };
+        
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+        
+            let currentUser = null;
+        
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                } else {
+                    alert("Please sign in to add or update an employee.");
+                }
+            });
+        
+            async function addOrUpdateEmployee(name, code, phonenumber, email, gender, status) {
+                if (!currentUser) {
+                    alert("Please sign in to add or update an employee.");
                     return;
                 }
-
-                const userDocRef = doc(db, "Data", currentUser.uid);
-                const productRef = collection(userDocRef, "products");
-                const productId = code; // Use code as productId
-                await setDoc(doc(productRef, productId), {
-                    Date: new Date().toLocaleDateString(),
-                    Time: new Date().toLocaleTimeString(),
-                    Code: code,
-                    ProductType: productType,
-                    Name: name,
-                    Barcode: barcode,
-                    Category: category,
-                    Cost: cost,
-                    Price: price,
-                    TaxMethod: tax,
-                    Quantity: quantity
-                });
-                alert("Product added successfully with ID: " + productId);
-            } catch (error) {
-                console.error("Error adding product:", error);
-                alert("Failed to edit product. Please try again.");
+        
+                try {
+                    // Check if the employee with the provided code already exists
+                    const employeeQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "employee"), where("code", "==", code)));
+                    if (!employeeQuerySnapshot.empty) {
+                        // If the employee exists, update the existing record
+                        const existingEmployeeDoc = employeeQuerySnapshot.docs[0]; // Assuming there's only one employee with the same code
+                        await setDoc(existingEmployeeDoc.ref, {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            Name: name,
+                            Code: code,
+                            Phonenumber: phonenumber,
+                            Email: email,
+                            Gender: gender,
+                            Status: status
+                        });
+                        alert("Employee with Code " + code + " updated successfully.");
+                    } else {
+                        // If the employee does not exist, add a new record
+                        const userDocRef = doc(db, "Data", currentUser.uid);
+                        const employeeRef = collection(userDocRef, "employee");
+                        await setDoc(doc(employeeRef, code), {
+                            Date: new Date().toLocaleDateString(),
+                            Time: new Date().toLocaleTimeString(),
+                            Name: name,
+                            Code: code,
+                            Phonenumber: phonenumber,
+                            Email: email,
+                            Gender: gender,
+                            Status: status
+                        });
+                        alert("Employee added successfully with Code: " + code);
+                    }
+                } catch (error) {
+                    console.error("Error adding or updating employee:", error);
+                    alert("Failed to add or update employee. Please try again.");
+                }
             }
-        }
+        
+            const employeeForm = document.getElementById("employeeForm");
+            employeeForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const nameInput = document.getElementById("name");
+                const codeInput = document.getElementById("code");
+                const phonenumberInput = document.getElementById("phonenumber");
+                const emailInput = document.getElementById("email");
+                const genderInput = document.getElementById("gender");
+                const statusInput = document.getElementById("status");
+        
+                await addOrUpdateEmployee(
+                    nameInput.value,
+                    codeInput.value,
+                    phonenumberInput.value,
+                    emailInput.value,
+                    genderInput.value,
+                    statusInput.value
+                );
+            });
 
-        const productForm = document.getElementById("productForm");
-        productForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const nameInput = document.getElementById("name");
-            const codeInput = document.getElementById("code");
-            const productTypeInput = document.getElementById("productType");
-            const barcodeInput = document.getElementById("barcode");
-            const categoryInput = document.getElementById("category");
-            const costInput = document.getElementById("cost");
-            const priceInput = document.getElementById("price");
-            const taxSelect = document.getElementById("tax");
-            const quantityInput = document.getElementById("quantity");
-
-            await addProduct(
-                nameInput.value, 
-                codeInput.value, 
-                productTypeInput.value, 
-                barcodeInput.value, 
-                categoryInput.value, 
-                costInput.value, 
-                priceInput.value, 
-                taxSelect.value, 
-                quantityInput.value
-            );
-        });
-        document.getElementById('backButton').addEventListener('click', function() {
-        window.location.href = 'page-list-product.html';
-        });
-    </script>
+        </script>
+        <script>
+            document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = 'page-list-product.html';
+            });
+        </script>
     <script src="/assets/js/login.js"></script>
     <script src="/assets/js/firebaseconfig.js"></script>
     <script src="/assets/js/dashboard.js"></script>

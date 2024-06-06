@@ -84,7 +84,8 @@
                                             </div>
                                                                          
                                         </div>                            
-                                        <button type="submit" class="btn btn-primary mr-2">Add Employee</button>
+                                        <button type="submit" class="btn btn-primary mr-2">Edit Employee</button>
+                                        <button type="button" class="btn btn-secondary mr-2" id="backButton">Back</button>
                                         <button type="reset" class="btn btn-danger">Reset</button>
                                     </form>
                                 </div>
@@ -123,14 +124,14 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     
         const firebaseConfig = {
-                   apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-                   authDomain: "cashsnap-9a185.firebaseapp.com",
-                   projectId: "cashsnap-9a185",
-                   storageBucket: "cashsnap-9a185.appspot.com",
-                   messagingSenderId: "1046320871049",
-                   appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-                   measurementId: "G-5M366WH052"
-               };
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+        };
     
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -142,40 +143,52 @@
             if (user) {
                 currentUser = user;
             } else {
-                alert("Please sign in to add an employee.");
+                alert("Please sign in to add or update an employee.");
             }
         });
     
-        async function addEmployee(name, employeeId, phonenumber, email, gender, status) {
+        async function addOrUpdateEmployee(name, employeeId, phonenumber, email, gender, status) {
             if (!currentUser) {
-                alert("Please sign in to add an employee.");
+                alert("Please sign in to add or update an employee.");
                 return;
             }
     
             try {
-                // Check if the employee with the same ID already exists
+                // Check if the employee with the provided ID already exists
                 const employeeQuerySnapshot = await getDocs(query(collection(db, "Data", currentUser.uid, "employee"), where("employeeId", "==", employeeId)));
                 if (!employeeQuerySnapshot.empty) {
-                    alert("An employee with the same ID already exists.");
-                    return;
+                    // If the employee exists, update the existing record
+                    const existingEmployeeDoc = employeeQuerySnapshot.docs[0]; // Assuming there's only one employee with the same ID
+                    await setDoc(existingEmployeeDoc.ref, {
+                        Date: new Date().toLocaleDateString(),
+                        Time: new Date().toLocaleTimeString(),
+                        Name: name,
+                        EmployeeId: employeeId,
+                        Phonenumber: phonenumber,
+                        Email: email,
+                        Gender: gender,
+                        Status: status
+                    });
+                    alert("Employee with ID " + employeeId + " updated successfully.");
+                } else {
+                    // If the employee does not exist, add a new record
+                    const userDocRef = doc(db, "Data", currentUser.uid);
+                    const employeeRef = collection(userDocRef, "employee");
+                    await setDoc(doc(employeeRef, employeeId), {
+                        Date: new Date().toLocaleDateString(),
+                        Time: new Date().toLocaleTimeString(),
+                        Name: name,
+                        EmployeeId: employeeId,
+                        Phonenumber: phonenumber,
+                        Email: email,
+                        Gender: gender,
+                        Status: status
+                    });
+                    alert("Employee added successfully with ID: " + employeeId);
                 }
-    
-                const userDocRef = doc(db, "Data", currentUser.uid);
-                const employeeRef = collection(userDocRef, "employee");
-                await setDoc(doc(employeeRef, employeeId), {
-                    Date: new Date().toLocaleDateString(),
-                    Time: new Date().toLocaleTimeString(),
-                    Name: name,
-                    EmployeeId: employeeId,
-                    Phonenumber: phonenumber,
-                    Email: email,
-                    Gender: gender,
-                    Status: status
-                });
-                alert("Employee added successfully with ID: " + employeeId);
             } catch (error) {
-                console.error("Error adding employee:", error);
-                alert("Failed to add employee. Please try again.");
+                console.error("Error adding or updating employee:", error);
+                alert("Failed to add or update employee. Please try again.");
             }
         }
     
@@ -189,7 +202,7 @@
             const genderInput = document.getElementById("gender");
             const statusInput = document.getElementById("status");
     
-            await addEmployee(
+            await addOrUpdateEmployee(
                 nameInput.value,
                 employeeIdInput.value,
                 phonenumberInput.value,
@@ -197,6 +210,12 @@
                 genderInput.value,
                 statusInput.value
             );
+        });
+    </script>
+    
+    <script>
+        document.getElementById('backButton').addEventListener('click', function() {
+        window.location.href = 'page-list-employee.html';
         });
     </script>
     <script src="/assets/js/login.js"></script>
