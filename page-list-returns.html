@@ -264,145 +264,216 @@
           </nav>
       </div>
   </div>
-    <div class="content-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-                        <div>
-                            <h4 class="mb-3">Returns List</h4>
-                            <p class="mb-0">Returns dashboard shows the graphical representation of the channel and Reference<br>wise returns with the comparison to the total units sold</p>
-                        </div>
-                        <div>
-                            <a href="page-add-return.html" class="btn btn-primary add-list mr-3"><i class="las la-plus mr-3"></i>Add Returns</a>
-                            <button id="refreshButton" class="btn btn-secondary"><i class="las la-sync-alt mr-2"></i>Refresh</button>
-                        </div>
+  <div class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                    <div>
+                        <h4 class="mb-3">Returns List</h4>
+                        <p class="mb-0">Returns dashboard shows the graphical representation of the channel and Reference<br>wise returns with the comparison to the total units sold</p>
                     </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="table-responsive rounded mb-3">
-                        <table class="data-table table mb-0 tbl-server-info">
-                            <thead class="bg-white text-uppercase">
-                                <tr class="ligth ligth-data">
-                                    <th>ReturnId</th>
-                                    <th>Product Code</th>
-                                    <th>Customer</th>
-                                    <th>Phone Number</th>
-                                    <th>Purchase Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="ligth-body" id="returnTableBody">
-                                <!-- Returns will be dynamically inserted here -->
-                            </tbody>
-                        </table>
+                    <div>
+                        <a href="page-add-return.html" class="btn btn-primary add-list mr-3"><i class="las la-plus mr-3"></i>Add Returns</a>
+                        <button id="refreshButton" class="btn btn-secondary"><i class="las la-sync-alt mr-2"></i>Refresh</button>
                     </div>
                 </div>
             </div>
-            <!-- Page end  -->
+            <div class="col-lg-12">
+                <div class="table-responsive rounded mb-3">
+                    <table class="data-table table mb-0 tbl-server-info">
+                        <thead class="bg-white text-uppercase">
+                            <tr class="ligth ligth-data">
+                                <th>ReturnId</th>
+                                <th>Product Code</th>
+                                <th>Customer</th>
+                                <th>Phone Number</th>
+                                <th>Purchase Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="ligth-body" id="returnTableBody">
+                            <!-- Returns will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Page end  -->
+    </div>
+</div>
+
+<!-- Modal HTML -->
+<div class="modal fade" id="returnDetailsModal" tabindex="-1" aria-labelledby="returnDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="returnDetailsModalLabel">Return Details</h5>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Date:</strong> <span id="modalDate"></span></li>
+                    <li class="list-group-item"><strong>Time:</strong> <span id="modalTime"></span></li>
+                    <li class="list-group-item"><strong>Return ID:</strong> <span id="modalReturnID"></span></li>
+                    <li class="list-group-item"><strong>Purchase Date:</strong> <span id="modalPurchaseDate"></span></li>
+                    <li class="list-group-item"><strong>Product Code:</strong> <span id="modalProductCode"></span></li>
+                    <li class="list-group-item"><strong>Customer:</strong> <span id="modalCustomer"></span></li>
+                    <li class="list-group-item"><strong>Phone Number:</strong> <span id="modalPhoneNumber"></span></li>
+                    <li class="list-group-item"><strong>Order Tax:</strong> <span id="modalOrderTax"></span></li>
+                    <li class="list-group-item"><strong>Order Discount:</strong> <span id="modalOrderDiscount"></span></li>
+                    <li class="list-group-item"><strong>Return Note:</strong> <span id="modalReturnNote"></span></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-    <script type="module">
-        // Firebase initialization
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    
-        const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-    
-        let currentUser = null;
-    
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                await loadReturns();
+
+</div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+        authDomain: "cashsnap-9a185.firebaseapp.com",
+        projectId: "cashsnap-9a185",
+        storageBucket: "cashsnap-9a185.appspot.com",
+        messagingSenderId: "1046320871049",
+        appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+        measurementId: "G-5M366WH052"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            await loadReturns();
+        } else {
+            alert("Please sign in to view returns.");
+        }
+    });
+
+    async function loadReturns() {
+        if (!currentUser) {
+            alert("Please sign in to view returns.");
+            return;
+        }
+
+        try {
+            const userDocRef = collection(db, "Data", currentUser.uid, "return");
+            const returnsSnapshot = await getDocs(userDocRef);
+            const returnTableBody = document.getElementById("returnTableBody");
+            returnTableBody.innerHTML = ""; // Clear any existing rows
+
+            returnsSnapshot.forEach((doc) => {
+                const returnData = doc.data();
+                const returnRow = document.createElement("tr");
+
+                returnRow.innerHTML = `
+                    <td>${returnData.ReturnID}</td>
+                    <td>${returnData.ProductCode || "N/A"}</td>
+                    <td>${returnData.Customer}</td>
+                    <td>${returnData.Phoneno}</td>
+                    <td>${returnData.PurchaseDate}</td>
+                    <td>
+                        <div class="d-flex align-items-center list-action">
+                            <a class="badge badge-info mr-2 view-return" data-toggle="tooltip" data-placement="top" title="View" href="#" data-return-id="${doc.id}"><i class="ri-eye-line mr-0"></i></a>
+                            <a class="badge bg-success mr-2" data-toggle="tooltip" data-placement="top" title="Edit" href="page-edit-return.html?employeeId=${doc.id}">
+                                <i class="ri-pencil-line mr-0"></i>
+                            </a>
+                            <a class="badge bg-warning mr-2 delete-return" data-toggle="tooltip" data-placement="top" title="Delete" href="#" data-return-id="${doc.id}"><i class="ri-delete-bin-line mr-0"></i></a>
+                        </div>
+                    </td>
+                `;
+
+                returnTableBody.appendChild(returnRow);
+            });
+
+            // Attach event listeners for delete buttons
+            const deleteButtons = document.querySelectorAll(".delete-return");
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    const returnId = button.getAttribute("data-return-id");
+                    await deleteReturn(returnId);
+                });
+            });
+
+            // Attach event listeners for view buttons
+            const viewButtons = document.querySelectorAll(".view-return");
+            viewButtons.forEach(button => {
+                button.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    const returnId = button.getAttribute("data-return-id");
+                    await viewReturnDetails(returnId);
+                });
+            });
+        } catch (error) {
+            console.error("Error loading returns:", error);
+            alert("Failed to load returns. Please try again.");
+        }
+    }
+
+    async function viewReturnDetails(returnId) {
+        if (!currentUser) {
+            alert("Please sign in to view return details.");
+            return;
+        }
+
+        try {
+            const returnRef = doc(db, "Data", currentUser.uid, "return", returnId);
+            const returnDoc = await getDoc(returnRef);
+
+            if (returnDoc.exists()) {
+                const returnData = returnDoc.data();
+                document.getElementById("modalDate").innerText = returnData.Date;
+                document.getElementById("modalTime").innerText = returnData.Time;
+                document.getElementById("modalReturnID").innerText = returnData.ReturnID;
+                document.getElementById("modalPurchaseDate").innerText = returnData.PurchaseDate;
+                document.getElementById("modalProductCode").innerText = returnData.ProductCode;
+                document.getElementById("modalCustomer").innerText = returnData.Customer;
+                document.getElementById("modalPhoneNumber").innerText = returnData.Phoneno;
+                document.getElementById("modalOrderTax").innerText = returnData.Ordertax;
+                document.getElementById("modalOrderDiscount").innerText = returnData.OrderDiscount;
+                document.getElementById("modalReturnNote").innerText = returnData.ReturnNote;
+
+                // Show the modal
+                const returnDetailsModal = new bootstrap.Modal(document.getElementById('returnDetailsModal'));
+                returnDetailsModal.show();
             } else {
-                alert("Please sign in to view returns.");
+                alert("No such return found.");
             }
-        });
-    
-        async function loadReturns() {
-            if (!currentUser) {
-                alert("Please sign in to view returns.");
-                return;
-            }
-    
-            try {
-                const userDocRef = collection(db, "Data", currentUser.uid, "return");
-                const returnsSnapshot = await getDocs(userDocRef);
-                const returnTableBody = document.getElementById("returnTableBody");
-                returnTableBody.innerHTML = ""; // Clear any existing rows
-    
-                returnsSnapshot.forEach((doc) => {
-                    const returnData = doc.data();
-                    const returnRow = document.createElement("tr");
-    
-                    returnRow.innerHTML = `
-                        <td>${returnData.ReturnID}</td>
-                        <td>${returnData.ProductCode || "N/A"}</td>
-                        <td>${returnData.Customer}</td>
-                        <td>${returnData.Phoneno}</td>
-                        <td>${returnData.PurchaseDate}</td>
-                        <td>
-                            <div class="d-flex align-items-center list-action">
-                                <a class="badge badge-info mr-2" data-toggle="tooltip" data-placement="top" title="View" href="#"><i class="ri-eye-line mr-0"></i></a>
-                                <a class="badge bg-success mr-2" data-toggle="tooltip" data-placement="top" title="Edit" href="page-edit-return.html?employeeId=${doc.id}">
-                                    <i class="ri-pencil-line mr-0"></i>
-                                </a>
-                                <a class="badge bg-warning mr-2 delete-return" data-toggle="tooltip" data-placement="top" title="Delete" href="#" data-return-id="${doc.id}"><i class="ri-delete-bin-line mr-0"></i></a>
-                            </div>
-                        </td>
-                    `;
-    
-                    returnTableBody.appendChild(returnRow);
-                });
-    
-                // Attach event listeners for delete buttons
-                const deleteButtons = document.querySelectorAll(".delete-return");
-                deleteButtons.forEach(button => {
-                    button.addEventListener("click", async (event) => {
-                        event.preventDefault();
-                        const returnId = button.getAttribute("data-return-id");
-                        await deleteReturn(returnId);
-                    });
-                });
-            } catch (error) {
-                console.error("Error loading returns:", error);
-                alert("Failed to load returns. Please try again.");
-            }
+        } catch (error) {
+            console.error("Error fetching return details:", error);
+            alert("Failed to fetch return details. Please try again.");
         }
-    
-        async function deleteReturn(returnId) {
-            if (!currentUser) {
-                alert("Please sign in to delete returns.");
-                return;
-            }
-    
-            try {
-                const returnRef = doc(db, "Data", currentUser.uid, "return", returnId);
-                await deleteDoc(returnRef);
-                alert("Return deleted successfully.");
-                await loadReturns(); // Refresh the return list
-            } catch (error) {
-                console.error("Error deleting return:", error);
-                alert("Failed to delete return. Please try again.");
-            }
+    }
+
+    async function deleteReturn(returnId) {
+        if (!currentUser) {
+            alert("Please sign in to delete returns.");
+            return;
         }
-    
-        document.getElementById("refreshButton").addEventListener("click", loadReturns);
-    </script>
+
+        try {
+            const returnRef = doc(db, "Data", currentUser.uid, "return", returnId);
+            await deleteDoc(returnRef);
+            alert("Return deleted successfully.");
+            await loadReturns(); // Refresh the return list
+        } catch (error) {
+            console.error("Error deleting return:", error);
+            alert("Failed to delete return. Please try again.");
+        }
+    }
+
+    document.getElementById("refreshButton").addEventListener("click", loadReturns);
+</script>
+
     
     
     

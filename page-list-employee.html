@@ -303,109 +303,177 @@
             <!-- Page end  -->
         </div>
     </div>
-    
-    <script type="module">
-        // Firebase initialization
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    
-        const firebaseConfig = {
-            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-            authDomain: "cashsnap-9a185.firebaseapp.com",
-            projectId: "cashsnap-9a185",
-            storageBucket: "cashsnap-9a185.appspot.com",
-            messagingSenderId: "1046320871049",
-            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-            measurementId: "G-5M366WH052"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-    
-        let currentUser = null;
-    
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                await loadEmployees();
+    <!-- Modal HTML -->
+    <div class="modal fade" id="employeeDetailsModal" tabindex="-1" aria-labelledby="employeeDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeDetailsModalLabel">Employee Details</h5>
+
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Date:</strong> <span id="modalDate"></span></li>
+                        <li class="list-group-item"><strong>Time:</strong> <span id="modalTime"></span></li>
+                        <li class="list-group-item"><strong>Name:</strong> <span id="modalName"></span></li>
+                        <li class="list-group-item"><strong>Employee ID:</strong> <span id="modalEmployeeId"></span></li>
+                        <li class="list-group-item"><strong>Phone Number:</strong> <span id="modalPhonenumber"></span></li>
+                        <li class="list-group-item"><strong>Email:</strong> <span id="modalEmail"></span></li>
+                        <li class="list-group-item"><strong>Gender:</strong> <span id="modalGender"></span></li>
+                        <li class="list-group-item"><strong>Status:</strong> <span id="modalStatus"></span></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+        authDomain: "cashsnap-9a185.firebaseapp.com",
+        projectId: "cashsnap-9a185",
+        storageBucket: "cashsnap-9a185.appspot.com",
+        messagingSenderId: "1046320871049",
+        appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+        measurementId: "G-5M366WH052"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            await loadEmployees();
+        } else {
+            alert("Please sign in to view employees.");
+        }
+    });
+
+    async function loadEmployees() {
+        if (!currentUser) {
+            alert("Please sign in to view employees.");
+            return;
+        }
+
+        try {
+            const userDocRef = collection(db, "Data", currentUser.uid, "employee");
+            const employeeSnapshot = await getDocs(userDocRef);
+            const employeeTableBody = document.getElementById("employeeTableBody");
+            employeeTableBody.innerHTML = ""; // Clear any existing rows
+
+            employeeSnapshot.forEach((doc) => {
+                const employeeData = doc.data();
+                const employeeRow = document.createElement("tr");
+
+                employeeRow.innerHTML = `
+                    <td>${employeeData.Name || "N/A"}</td>
+                    <td>${employeeData.EmployeeId}</td>
+                    <td>${employeeData.Phonenumber || "N/A"}</td>
+                    <td>${employeeData.Email || "N/A"}</td>
+                    <td>${employeeData.Gender || "N/A"}</td>
+                    <td>${employeeData.Status || "N/A"}</td>
+                    
+                    <td>
+                        <div class="d-flex align-items-center list-action">
+                            <a class="badge badge-info mr-2 view-employee" data-toggle="tooltip" data-placement="top" title="View" href="#" data-employee-id="${doc.id}"><i class="ri-eye-line mr-0"></i></a>
+                            <a class="badge bg-success mr-2" data-toggle="tooltip" data-placement="top" title="Edit" href="page-edit-employee.html?employeeId=${doc.id}">
+                                <i class="ri-pencil-line mr-0"></i>
+                            </a>
+                            <a class="badge bg-warning mr-2 delete-employee" data-toggle="tooltip" data-placement="top" title="Delete" href="#" data-employee-id="${doc.id}"><i class="ri-delete-bin-line mr-0"></i></a>
+                        </div>
+                    </td>
+                `;
+
+                employeeTableBody.appendChild(employeeRow);
+            });
+
+            // Attach event listeners for delete buttons
+            const deleteButtons = document.querySelectorAll(".delete-employee");
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    const employeeId = button.getAttribute("data-employee-id");
+                    await deleteEmployee(employeeId);
+                });
+            });
+
+            // Attach event listeners for view buttons
+            const viewButtons = document.querySelectorAll(".view-employee");
+            viewButtons.forEach(button => {
+                button.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    const employeeId = button.getAttribute("data-employee-id");
+                    await viewEmployeeDetails(employeeId);
+                });
+            });
+        } catch (error) {
+            console.error("Error loading employees:", error);
+            alert("Failed to load employees. Please try again.");
+        }
+    }
+
+    async function viewEmployeeDetails(employeeId) {
+        if (!currentUser) {
+            alert("Please sign in to view employee details.");
+            return;
+        }
+
+        try {
+            const employeeRef = doc(db, "Data", currentUser.uid, "employee", employeeId);
+            const employeeDoc = await getDoc(employeeRef);
+
+            if (employeeDoc.exists()) {
+                const employeeData = employeeDoc.data();
+                document.getElementById("modalDate").innerText = employeeData.Date;
+                document.getElementById("modalTime").innerText = employeeData.Time;
+                document.getElementById("modalName").innerText = employeeData.Name;
+                document.getElementById("modalEmployeeId").innerText = employeeData.EmployeeId;
+                document.getElementById("modalPhonenumber").innerText = employeeData.Phonenumber;
+                document.getElementById("modalEmail").innerText = employeeData.Email;
+                document.getElementById("modalGender").innerText = employeeData.Gender;
+                document.getElementById("modalStatus").innerText = employeeData.Status;
+
+                // Show the modal
+                const employeeDetailsModal = new bootstrap.Modal(document.getElementById('employeeDetailsModal'));
+                employeeDetailsModal.show();
             } else {
-                alert("Please sign in to view employees.");
+                alert("No such employee found.");
             }
-        });
-    
-        async function loadEmployees() {
-            if (!currentUser) {
-                alert("Please sign in to view employees.");
-                return;
-            }
-    
-            try {
-                const userDocRef = collection(db, "Data", currentUser.uid, "employee");
-                const employeeSnapshot = await getDocs(userDocRef);
-                const employeeTableBody = document.getElementById("employeeTableBody");
-                employeeTableBody.innerHTML = ""; // Clear any existing rows
-    
-                employeeSnapshot.forEach((doc) => {
-                    const employeeData = doc.data();
-                    const employeeRow = document.createElement("tr");
-    
-                    employeeRow.innerHTML = `
-                        <td>${employeeData.Name || "N/A"}</td>
-                        <td>${employeeData.EmployeeId}</td>
-                        <td>${employeeData.Phonenumber || "N/A"}</td>
-                        <td>${employeeData.Email ||"N/A" }</td>
-                        <td>${employeeData.Gender || "N/A"}</td>
-                        <td>${employeeData.Status || "N/A"}</td>
-                        
-                        <td>
-                            <div class="d-flex align-items-center list-action">
-                                <a class="badge badge-info mr-2" data-toggle="tooltip" data-placement="top" title="View" href="#"><i class="ri-eye-line mr-0"></i></a>
-                                <a class="badge bg-success mr-2" data-toggle="tooltip" data-placement="top" title="Edit" href="page-edit-employee.html?employeeId=${doc.id}">
-                                    <i class="ri-pencil-line mr-0"></i>
-                                </a>
-                                <a class="badge bg-warning mr-2 delete-employee" data-toggle="tooltip" data-placement="top" title="Delete" href="#" data-employee-id="${doc.id}"><i class="ri-delete-bin-line mr-0"></i></a>
-                            </div>
-                        </td>
-                    `;
-    
-                    employeeTableBody.appendChild(employeeRow);
-                });
-    
-                // Attach event listeners for delete buttons
-                const deleteButtons = document.querySelectorAll(".delete-employee");
-                deleteButtons.forEach(button => {
-                    button.addEventListener("click", async (event) => {
-                        event.preventDefault();
-                        const employeeId = button.getAttribute("data-employee-id");
-                        await deleteEmployee(employeeId);
-                    });
-                });
-            } catch (error) {
-                console.error("Error loading employees:", error);
-                alert("Failed to load employees. Please try again.");
-            }
+        } catch (error) {
+            console.error("Error fetching employee details:", error);
+            alert("Failed to fetch employee details. Please try again.");
         }
-    
-        async function deleteEmployee(employeeId) {
-            if (!currentUser) {
-                alert("Please sign in to delete employees.");
-                return;
-            }
-    
-            try {
-                const employeeRef = doc(db, "Data", currentUser.uid, "employee", employeeId);
-                await deleteDoc(employeeRef);
-                alert("Employee deleted successfully.");
-                await loadEmployees(); // Refresh the employee list
-            } catch (error) {
-                console.error("Error deleting employee:", error);
-                alert("Failed to delete employee. Please try again.");
-            }
+    }
+
+    async function deleteEmployee(employeeId) {
+        if (!currentUser) {
+            alert("Please sign in to delete employees.");
+            return;
         }
-    
-        document.getElementById("refreshButton").addEventListener("click", loadEmployees);
-    </script>
+
+        try {
+            const employeeRef = doc(db, "Data", currentUser.uid, "employee", employeeId);
+            await deleteDoc(employeeRef);
+            alert("Employee deleted successfully.");
+            await loadEmployees(); // Refresh the employee list
+        } catch (error) {
+            console.error("Error deleting employee:", error);
+            alert("Failed to delete employee. Please try again.");
+        }
+    }
+
+    document.getElementById("refreshButton").addEventListener("click", loadEmployees);
+</script>
+
     
 
     
