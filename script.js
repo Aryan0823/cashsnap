@@ -1,41 +1,4 @@
-now you have to write a script for the dashboard.html file 
 
-now see,
-i want the sum of all cashin->amount to be display
-but the catch is that 
-you have to fatch the data based on the year, month (this are dropdown list)
-(month and year are have to take current like todays date is 2024-05-12
-then 2024 is the year and 05 is the month date format is:YYYY-MM-DD in db).
-user must have to select either of them year or month
-
-so the structure of data stored in db is like 
-first main collection name data which content documents of unique userid and that all user id content below given structure
-Cashin is document which contain multiple collections and this collections are name based on the dates(like this:  2024-05-12, 2024-06-04,etc (date))
-and all this collections/dates contain documents and this documents are named based on time like 0:50:49, etc (24 hr format) and this documents contain fields like
-for example:
-
-Amount: 9
-Date: 2024-05-12
-Time: 0:50:49
-TransectionType: Cashin
-
-Amount: 20
-Date: 2024-05-12
-Time: 2:37:20
-TransectionType: Cashin
-
-(note: all this values of Date,Time,Amount,TransectionType are just for example perpose) 
-
-now for example
-for example now when your select month 
-so you have to fatch the all the data of current month(in this case current month is 05)
-and you have to add every documents (name based on time) all the values of Amount and make total of them and display on this tag
-<h5 id="cashInTotal">₹ 0</h5>
-
-i think i have clear all the thigs
-
-
-          <script type="module">
             // Firebase initialization
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
             import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -232,4 +195,3 @@ i think i have clear all the thigs
                     }
                 });
             }
-        </script>

@@ -255,6 +255,7 @@
                                 <!-- Rows will be inserted here by JavaScript -->
                             </tbody>
                         </table>
+                        <div id="totalAmount">Total Amount: 0</div>
                     </div>
                 </div>
             </div>
@@ -286,23 +287,23 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+    
         const firebaseConfig = {
-                apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
-                authDomain: "cashsnap-9a185.firebaseapp.com",
-                projectId: "cashsnap-9a185",
-                storageBucket: "cashsnap-9a185.appspot.com",
-                messagingSenderId: "1046320871049",
-                appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
-                measurementId: "G-5M366WH052"
-            };
-
+            apiKey: "AIzaSyBncdnP33SF5gVSACcn2DI7DMZ-eIF3hj4",
+            authDomain: "cashsnap-9a185.firebaseapp.com",
+            projectId: "cashsnap-9a185",
+            storageBucket: "cashsnap-9a185.appspot.com",
+            messagingSenderId: "1046320871049",
+            appId: "1:1046320871049:web:600b3dee8af7b3c4763858",
+            measurementId: "G-5M366WH052"
+        };
+    
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-
+    
         let currentUser = null;
-
+    
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
@@ -310,35 +311,35 @@
                 alert("Please sign in to view transactions.");
             }
         });
-
+    
         document.getElementById('fetchButton').addEventListener('click', fetchTransactions);
-
+    
         async function fetchTransactions() {
             if (!currentUser) {
                 alert("Please sign in to view transactions.");
                 return;
             }
-
+    
             const transactionType = document.getElementById('transactionType').value;
             const selectedDate = document.getElementById('transactionDate').value;
-
+    
             if (!transactionType || !selectedDate) {
                 alert("Please select both transaction type and date.");
                 return;
             }
-
+    
             try {
                 const transactionsData = [];
                 const userRef = doc(db, "Data", currentUser.uid);
                 const transactionTypeRef = doc(userRef, "transactions", transactionType);
-
+    
                 const dateRef = collection(transactionTypeRef, selectedDate);
                 const dateSnapshots = await getDocs(dateRef);
-
+    
                 dateSnapshots.forEach((doc) => {
                     transactionsData.push(doc.data());
                 });
-
+    
                 if (transactionsData.length > 0) {
                     displayTransactions(transactionsData);
                 } else {
@@ -349,11 +350,13 @@
                 alert("Failed to fetch transactions. Please try again.");
             }
         }
-
+    
         function displayTransactions(transactionsData) {
             const tbody = document.getElementById('transactionTableBody');
             tbody.innerHTML = "";
-
+    
+            let totalAmount = 0;
+    
             transactionsData.forEach(transaction => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
@@ -362,8 +365,11 @@
                     <td>${transaction.TransactionType}</td>
                     <td>${transaction.Amount}</td>
                 `;
-                tbody.appendChild(row);
+                tbody.appendChild(row); 
+                totalAmount += parseFloat(transaction.Amount);
             });
+    
+            document.getElementById('totalAmount').innerText = `Total Amount: ${totalAmount}`;
         }
     </script>
     <script src="/assets/js/login.js"></script>
