@@ -225,7 +225,7 @@
                     <p class="mb-0">View all transactions.</p>
                     <div class="form-group">
                         <label for="transactionType">Transaction Type:</label>
-                        <select id="transactionType" class="form-control">
+                        <select id="transactionType" class="selectpicker form-control" data-style="py-0">
                             <option value="">Select Transaction Type</option>
                             <option value="Cashin">Cashin</option>
                             <option value="Cashout">Cashout</option>
@@ -255,9 +255,17 @@
                                 <!-- Rows will be inserted here by JavaScript -->
                             </tbody>
                         </table>
-                        <div id="totalAmount">Total Amount: 0</div>
+                        <div id="totalAmount" style="font-size: 20px;">Total Amount: 0</div>
+                        
+                            <div class="col-lg-5">
+                                <canvas id="transactionChart"></canvas>
+                            </div>
+                        
                     </div>
                 </div>
+ 
+                        
+
             </div>
         </div>
     </div>
@@ -282,8 +290,8 @@
             </div>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module">
-        // Firebase initialization
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -303,7 +311,8 @@
         const auth = getAuth(app);
     
         let currentUser = null;
-    
+        let transactionChart = null;
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
@@ -342,6 +351,7 @@
     
                 if (transactionsData.length > 0) {
                     displayTransactions(transactionsData);
+                    updateChart(transactionsData);
                 } else {
                     alert("No transactions found for the selected date.");
                 }
@@ -371,7 +381,40 @@
     
             document.getElementById('totalAmount').innerText = `Total Amount: ${totalAmount}`;
         }
+
+        function updateChart(transactionsData) {
+            const labels = transactionsData.map(transaction => transaction.Time);
+            const data = transactionsData.map(transaction => parseFloat(transaction.Amount));
+
+            const ctx = document.getElementById('transactionChart').getContext('2d');
+
+            if (transactionChart) {
+                transactionChart.destroy();
+            }
+
+            transactionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Transaction Amount',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
     </script>
+
     <script src="/assets/js/login.js"></script>
     <script src="/assets/js/firebaseconfig.js"></script>
     <script src="/assets/js/dashboard.js"></script>
