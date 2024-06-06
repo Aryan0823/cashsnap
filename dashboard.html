@@ -11,13 +11,6 @@
         <link rel="stylesheet" href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
         <link rel="stylesheet" href="/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
         <link rel="stylesheet" href="/assets/vendor/remixicon/fonts/remixicon.css">
-        <style>
-            #customerSupplierEmployeeChart, #productReturnChart {
-                width: 200px; /* Adjust the width as needed */
-                height: 200px; /* Adjust the height as needed */
-            }
-        </style>
-        
     </head>
   <body class="  ">
     <!-- loader Start -->
@@ -178,11 +171,13 @@
                       </a>
                   </div>
                   <div class="iq-search-bar device-search">
-                      <form action="#" class="searchbox">
-                          <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-                          <input type="text" class="text search-input" placeholder="Search here.">
-                      </form>
-                  </div>
+                    <form action="#" class="searchbox">
+                        <a class="search-link" href="#"><i class="ri-search-line"></i></a>
+                        <input type="text" class="text search-input" placeholder="Search here.">
+                    </form>
+                    <div class="search-results"></div>
+                 </div>
+
                   <div class="d-flex align-items-center">
                       <button class="navbar-toggler" type="button" data-toggle="collapse"
                           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -537,6 +532,14 @@
             }
         </script>
         
+            
+        <style>
+            .highlight {
+                background-color: yellow;
+            }
+        </style>
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/assets/js/login.js"></script>
     <script src="/assets/js/firebaseconfig.js"></script>
