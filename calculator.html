@@ -82,7 +82,14 @@
             justify-content: flex-end;
             font-size: 30px;
             margin-bottom: 20px;
-            overflow-x: scroll;
+            /* overflow-x: scroll; */
+            border: none;  /* Ensure no border is visible */
+            outline: none;  /* Ensure no outline is visible */
+            cursor: default;  /* Change cursor to default */
+        }
+
+        #display:focus {
+            outline: none;  /* Ensure no outline is visible when focused */
         }
 
         #display::-webkit-scrollbar {
