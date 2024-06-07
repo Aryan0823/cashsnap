@@ -1,89 +1,109 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/10.12.2/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/10.12.2/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+    <link rel="stylesheet" href="/assets/css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap"
+    />
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <div class="desktop-1">
+      <header class="frame-parent">
+        <div class="logo1-1-wrapper">
+          <img
+            class="logo1-1-icon"
+            loading="lazy"
+            alt=""
+            src="/assets/images/logo.png"
+          />
+        </div>
+        <div class="cashsnap-wrapper">
+            <a href="index.html">
+              <div class="cashsnap">Cashsnap</div>
+            </a>
+          </div>
+        <div class="line-wrapper">
+          <div class="frame-child"></div>
+        </div>
+        <div class="frame-wrapper">
+          <div class="story-parent">
+            <div>
+                <button class="nav-button" onclick="redirectTostory()">Story</button>
+            </div>
+            <div>
+                <button class="nav-button" onclick="redirectToaboutus()">About us</button>
+            </div>
+          </div>
+        </div>
+        <div class="frame-container">
+            <button class="rectangle-parent" onclick="redirectToLoginPage()">
+                <div class="frame-item"></div>
+                <b class="login">LOGIN</b>
+            </button>              
+        </div>
+        <button class="rectangle-group" onclick="redirectToSignUpPage()">
+            <div class="frame-inner"></div>
+            <b class="register">SIGNUP</b>
+          </button>
+          
+      </header>
+      <section class="background-box-parent">
+        <div class="background-box">
+          <div class="frame-group">
+            <div class="cashsnap-parent">
+              <div class="cashsnap1">Cashsnap</div>
+              <div class="accounting-application">Accounting Application</div>
+            </div>
+            <div class="manage-your-finances">
+              Manage your finances digitally.
+            </div>
+            <!-- <div class="rectangle-container">
+              <div class="rectangle-div"></div> -->
+                <!-- <button  class="open-an-account" href="auth-sign-up.html">OPEN AN ACCOUNT</button> -->
+                <button class="rectangle-group" onclick="redirectToSignUpPage()">
+                    <!-- <div class="frame-inner"></div> -->
+                    <b class="register">OPEN AN ACCOUNT</b>
+                  </button>
+              <!-- <b class="open-an-account" href="auth-sign-up.html">OPEN AN ACCOUNT</b> -->
+            <!-- </div> -->
+          </div>
+        </div>
+        <!-- <img
+          class="removebg-preview-1-icon"
+          loading="lazy" alt=""
+          src="/Aryan/Cashsnap/Cashsnap/html/assets/images/left_side_img.png"
+        /> -->
+        <div class="removebg-preview-1-icon-container">
+            <img class="removebg-preview-1-icon" src="/assets/images/left_side_img.png" alt="Left Side Image">
+          </div>
+        </section>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        function redirectToLoginPage() {
+          window.location.href = '/cashsnap/auth-sign-in.html';
         }
-      });
-    </script>
+        function redirectToSignUpPage() {
+            window.location.href = '/cashsnap/auth-sign-up.html';
+        }
+        function redirectToaboutus() {
+            window.location.href = '/cashsnap/about-us.html';
+        }
+        function redirectTostory() {
+            window.location.href = '/cashsnap/story.html';
+        }
+    </script>   
+    
+    <script src="/assets/js/firebaseconfig.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
+    <script src="/assets/js/backend-bundle.min.js"></script>
+    <script src="/assets/js/table-treeview.js"></script>
+    <script src="/assets/js/customizer.js"></script>
+    <script async src="/assets/js/chart-custom.js"></script>
+    <script src="/assets/js/app.js"></script>   
   </body>
 </html>
